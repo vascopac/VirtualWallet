@@ -26,18 +26,17 @@
             return {
                 email: '',
                 password: '',
-                token: '',
             }
         },
         methods: {
             login(){
-                axios.post('api/login', {
+                this.$store.dispatch('retrieveToken', {
                     email: this.email,
                     password: this.password
                 })
                     .then(response => {
-                        this.token = response.data.access_token;
-                })
+                        this.$router.push({name: 'home'});
+                    })
             }
         }
     }

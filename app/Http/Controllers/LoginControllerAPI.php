@@ -39,7 +39,7 @@ class LoginControllerAPI extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:3'],
-            'nif' => ['required', 'numeric', 'size:9'],
+            'nif' => ['required', 'numeric', 'digits:9'],
             'photo' => ['nullable|mimes:jpeg,bmp,png,jpg']
         ]);
 

@@ -2,8 +2,9 @@
     <div id="app">
         <ul class="nav">
             <li><router-link to="/">Home</router-link></li>
-            <li><router-link to="/login">Login</router-link></li>
-            <li><router-link to="/register">Register</router-link></li>
+            <li v-if="!loggedIn"><router-link :to="{ name: 'login' }">Login</router-link></li>
+            <li v-if="!loggedIn"><router-link :to="{ name: 'register' }">Register</router-link></li>
+            <li v-if="loggedIn"><router-link :to="{ name: 'logout' }">Logout</router-link></li>
         </ul>
 
         <router-view></router-view>
@@ -12,7 +13,11 @@
 
 <script>
     export default {
-        name: "Master"
+        computed: {
+            loggedIn(){
+                return this.$store.getters.loggedIn;
+            }
+        }
     }
 </script>
 

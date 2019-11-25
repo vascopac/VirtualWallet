@@ -5,8 +5,12 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        token: "",
-        user: null
+        token: localStorage.getItem('access_token') || null,
+    },
+    getters: {
+        loggedIn(state){
+            return state.token !== null;
+        }
     },
     mutations: {
         clearUserAndToken: (state) => {
@@ -47,6 +51,70 @@ export default new Vuex.Store({
             if (user) {
                 state.user = JSON.parse(user);
             }
+        },
+        retrieveToken: (state, token) => {
+            state.token = token;
+        },
+
+        destroyToken: (state) => {
+            state.token = null;
+        },
+    },
+
+    actions: {
+        retrieveToken(context, credentials){
+            return new Promise((resolve, reject) => {
+                axios.post('api/login', {
+                    email: credentials.email,
+                    password: credentials.password
+                })
+                    .then(response => {
+                        const token = response.data.access_token;
+                        localStorage.setItem('access_token', token);
+                        context.commit('retrieveToken', token);
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        reject(error);
+                    });
+            });
+        },
+
+        destroyToken(context){
+            axios.defaults.headers.common.Authorization = "Bearer " + context.state.token;
+
+            if (context.getters.loggedIn){
+                return new Promise((resolve, reject) => {
+                    axios.post('api/logout')
+                        .then(response => {
+                            localStorage.removeItem('access_token');
+                            context.commit('destroyToken');
+                            resolve(response);
+                        })
+                        .catch(error => {
+                            localStorage.removeItem('access_token');
+                            context.commit('destroyToken');
+                            reject(error);
+                        });
+                })
+            }
+        },
+        register(context, data){
+            return new Promise((resolve, reject) => {
+                axios.post('api/register', {
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    nif: data.nif,
+                })
+                    .then(response => {
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            })
         }
     }
 });

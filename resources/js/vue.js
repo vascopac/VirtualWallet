@@ -4,19 +4,14 @@ require('./bootstrap');
 
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Vuex from 'vuex';
+
+Vue.use(Vuex);
 Vue.use(VueRouter);
 
 import Master from "./components/layouts/Master";
-import HomeComponent from "./components/Home";
-import LoginComponent from "./components/Auth/Login";
-import RegisterComponent from "./components/Auth/Register";
-
-
-const routes = [
-  { path: '/', component: HomeComponent },
-  { path: '/login', component: LoginComponent },
-  { path: '/register', component: RegisterComponent },
-];
+import store from "./store/store-global";
+import routes from "./routes";
 
 const router = new VueRouter({
   routes:routes,
@@ -24,6 +19,7 @@ const router = new VueRouter({
 
 const app = new Vue({
   router,
+    store,
   components: {Master},
     template: '<Master/>'
 }).$mount('#app');

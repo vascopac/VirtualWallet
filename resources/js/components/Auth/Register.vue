@@ -1,7 +1,7 @@
 <template>
     <div class="login-form">
         <h2 class="login-heading">Login</h2>
-        <form action="#" @submit.prevent="login">
+        <form action="#" @submit.prevent="register">
 
             <div class="form-control">
                 <label for="name">Name</label>
@@ -42,8 +42,16 @@
             }
         },
         methods: {
-            login(){
-
+            register(){
+                this.$store.dispatch('register', {
+                    name: this.name,
+                    email: this.email,
+                    password: this.password,
+                    nif: this.nif,
+                })
+                    .then(response => {
+                        this.$router.push({name: 'login'});
+                    })
             }
         }
     }
