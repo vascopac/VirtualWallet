@@ -38,11 +38,12 @@ class UserControllerAPI extends Controller
     public function store(Request $request)
     {
         $request->validate([
-                'name' => 'required|min:3|regex:/^[A-Za-záàâãéèêíóôõúçÁÀÂÃÉÈÍÓÔÕÚÇ ]+$/',
-                'email' => 'required|email|unique:users,email',
-                'age' => 'integer|between:18,75',
-                'password' => 'min:3'
-            ]);
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:3'],
+            'nif' => ['nullable', 'numeric', 'digits:9'],
+            'photo' => ['nullable|mimes:jpeg,bmp,png,jpg']
+        ]);
         $user = new User();
         $user->fill($request->all());
         $user->password = Hash::make($user->password);

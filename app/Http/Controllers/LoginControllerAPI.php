@@ -34,32 +34,6 @@ class LoginControllerAPI extends Controller
         }
     }
 
-    public function register(Request $request){
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:3'],
-            'nif' => ['required', 'numeric', 'digits:9'],
-            'photo' => ['nullable|mimes:jpeg,bmp,png,jpg']
-        ]);
-
-        $path = null;
-        if (array_key_exists('photo', $request)) {
-            $photo = $request->photo;
-            do{
-                $path = str_random(32) . '.' . $photo->getClientOriginalExtension();
-            }while (count(User::where('photo', $path)->get())>0);
-            Storage::disk('public')->putFileAs('profiles', $photo, $path);
-        }
-        return User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'nif' => $request->nif,
-            'photo' => $path,
-        ]);
-    }
-
     public function logout()
     {
         \Auth::guard('api')->user()->token()->revoke();

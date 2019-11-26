@@ -1954,7 +1954,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Login",
+  name: "Register",
   data: function data() {
     return {
       name: '',
@@ -20562,7 +20562,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-control" }, [
       _c("button", { staticClass: "btn-submit", attrs: { type: "submit" } }, [
-        _vm._v("Login")
+        _vm._v("Register")
       ])
     ])
   }
