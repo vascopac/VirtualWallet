@@ -5,12 +5,13 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        token: localStorage.getItem('access_token') || null,
+        token: sessionStorage.getItem('token') || "",
     },
     getters: {
         loggedIn(state){
-            return state.token !== null;
-        }
+            return state.token !== "";
+        },
+        
     },
     mutations: {
         clearUserAndToken: (state) => {
@@ -52,13 +53,6 @@ export default new Vuex.Store({
                 state.user = JSON.parse(user);
             }
         },
-        retrieveToken: (state, token) => {
-            state.token = token;
-        },
-
-        destroyToken: (state) => {
-            state.token = null;
-        },
     },
 
     actions: {
@@ -69,9 +63,11 @@ export default new Vuex.Store({
                     password: credentials.password
                 })
                     .then(response => {
-                        const token = response.data.access_token;
-                        localStorage.setItem('access_token', token);
-                        context.commit('retrieveToken', token);
+                        console.log(response.data);
+                        const token = response.data.token.access_token;
+                        const user = response.data.user;
+                        context.commit('setToken', token);
+                        context.commit('setUser', user);
                         resolve(response);
                     })
                     .catch(error => {
@@ -82,19 +78,15 @@ export default new Vuex.Store({
         },
 
         destroyToken(context){
-            axios.defaults.headers.common.Authorization = "Bearer " + context.state.token;
-
             if (context.getters.loggedIn){
                 return new Promise((resolve, reject) => {
                     axios.post('api/logout')
                         .then(response => {
-                            localStorage.removeItem('access_token');
-                            context.commit('destroyToken');
+                            context.commit('clearUserAndToken');
                             resolve(response);
                         })
                         .catch(error => {
-                            localStorage.removeItem('access_token');
-                            context.commit('destroyToken');
+                            context.commit('clearUserAndToken');
                             reject(error);
                         });
                 })
@@ -102,18 +94,59 @@ export default new Vuex.Store({
         },
         register(context, data){
             return new Promise((resolve, reject) => {
-                axios.post('api/register', {
-                    name: data.name,
-                    email: data.email,
-                    password: data.password,
-                    nif: data.nif,
+                const config = {
+                    headers: { 'content-type': 'multipart/form-data' }
+                }
+ 
+                let formData = new FormData();
+                formData.append('name', data.name);
+                formData.append('email', data.email);
+                formData.append('password', data.password);
+                formData.append('nif', data.nif);
+                formData.append('photo', data.photo);
+
+                axios.post('/api/register', formData, config)
+                .then(function (response) {
+                    resolve(response);
                 })
-                    .then(response => {
+                .catch(function (error) {
+                    reject(error);
+                });
+            })
+        },
+        edit(context, data){
+            return new Promise((resolve, reject) => {
+                axios.put('api/users/' + data.user.id, data.user)
+                    .then(response=>{
+                        if(data.photo != ''){
+                            context.dispatch('uploadPhoto', data);
+                        }
+                        context.commit('setUser', response.data.data);
                         resolve(response);
                     })
                     .catch(error => {
                         reject(error);
                     });
+            })
+        },
+        uploadPhoto(content, data){
+            return new Promise((resolve, reject) => {
+                const config = {
+                    headers: { 'content-type': 'multipart/form-data' }
+                };
+
+                let formData = new FormData();
+                formData.append('photo', data.photo);
+                formData.append('id', data.user.id);
+
+                axios.post('api/photo', formData, config)
+                .then(response => {
+                    resolve(response);
+                })
+                .catch(error =>{
+                    reject(error);
+                })
+
             })
         }
     }

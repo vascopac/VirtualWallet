@@ -7,6 +7,7 @@ use Illuminate\Contracts\Support\Jsonable;
 
 use App\Http\Resources\User as UserResource;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 use App\User;
 use App\StoreUserRequest;
@@ -21,13 +22,6 @@ class UserControllerAPI extends Controller
         } else {
             return UserResource::collection(User::all());
         }
-
-        /*Caso não se pretenda fazer uso de Eloquent API Resources (https://laravel.com/docs/5.5/eloquent-resources), é possível implementar com esta abordagem:
-        if ($request->has('page')) {
-            return User::with('department')->paginate(5);;
-        } else {
-            return User::with('department')->get();;
-        }*/
     }
 
     public function show($id)
@@ -41,12 +35,18 @@ class UserControllerAPI extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:3'],
-            'nif' => ['nullable', 'numeric', 'digits:9'],
-            'photo' => ['nullable|mimes:jpeg,bmp,png,jpg']
+            'nif' => ['required', 'numeric', 'digits:9'],
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg']
         ]);
         $user = new User();
         $user->fill($request->all());
-        $user->password = Hash::make($user->password);
+        $user->password = Hash::make($request->password);
+
+        if($request->photo != null){
+            $imageName = time().'.'.$request->photo->getClientOriginalExtension();
+            Storage::disk('public')->putFileAs('fotos', $request->photo, $imageName);
+            $user->photo = $imageName;
+        };
         $user->save();
         return response()->json(new UserResource($user), 201);
     }
@@ -54,13 +54,24 @@ class UserControllerAPI extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-                'name' => 'required|min:3|regex:/^[A-Za-záàâãéèêíóôõúçÁÀÂÃÉÈÍÓÔÕÚÇ ]+$/',
-                'email' => 'required|email|unique:users,email,'.$id,
-                'age' => 'integer|between:18,75'
-            ]);
+            'name' => ['required', 'string', 'max:255'],
+            'nif' => ['required', 'numeric', 'digits:9'],
+        ]);
         $user = User::findOrFail($id);
         $user->update($request->all());
         return new UserResource($user);
+    }
+
+    public function updatePhoto(Request $request)
+    {
+        $request->validate([
+            'photo' => ['nullable', 'image', 'mimes:jpeg,png,jpg'],
+        ]);
+        $user = User::findOrFail($request->id);
+        $imageName = time().'.'.$request->photo->getClientOriginalExtension();
+        Storage::disk('public')->putFileAs('fotos', $request->photo, $imageName);
+        $user->photo = $imageName;
+        $user->update();
     }
 
     public function destroy($id)

@@ -21,13 +21,17 @@ Route::post('login', 'LoginControllerAPI@login');
 Route::post('register', 'UserControllerAPI@store');
 Route::middleware('auth:api')->post('logout',
     'LoginControllerAPI@logout');
+Route::middleware('auth:api')->put('users/{id}',
+    'UserControllerAPI@update');
+Route::middleware('auth:api')->post('photo', 
+    'UserControllerAPI@updatePhoto');
 
 Route::get('departments', 'DepartmentControllerAPI@index');
 Route::get('users', 'UserControllerAPI@index');
 Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
 Route::get('users/{id}', 'UserControllerAPI@show');
 Route::post('users', 'UserControllerAPI@store');
-Route::put('users/{id}', 'UserControllerAPI@update');
+//Route::put('users/{id}', 'UserControllerAPI@update');
 Route::delete('users/{id}', 'UserControllerAPI@destroy');
 
 

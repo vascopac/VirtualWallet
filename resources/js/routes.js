@@ -2,6 +2,7 @@ import HomeComponent from "./components/Home";
 import LoginComponent from "./components/Auth/Login";
 import RegisterComponent from "./components/Auth/Register";
 import LogoutComponent from "./components/Auth/Logout";
+import EditComponent from "./components/Auth/Edit";
 
 
 
@@ -24,8 +25,16 @@ const routes = [
         component: RegisterComponent,
         name: 'register',
         meta: {
-        requiresVisitors: true
-    }
+            requiresVisitors: true
+        }
+    },
+    {
+        path: '/edit',
+        component: EditComponent,
+        name: 'edit',
+        meta: {
+            requiresVisitors: true
+        }
     },
     {
         path: '/logout',

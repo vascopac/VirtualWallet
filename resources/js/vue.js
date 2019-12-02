@@ -21,6 +21,9 @@ const app = new Vue({
   router,
     store,
   components: {Master},
-    template: '<Master/>'
+    template: '<Master/>',
+    mounted(){
+      this.$store.commit('loadTokenAndUserFromSession');
+    }
 }).$mount('#app');
 

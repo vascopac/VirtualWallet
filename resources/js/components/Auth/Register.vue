@@ -23,6 +23,22 @@
                 <input type="number" name="nif" id="nif" class="login-input" v-model="nif">
             </div>
 
+            <div class="input-group">
+                <label class="input-group-btn">
+                  <span class="btn btn-primary">
+                    Browse:
+                    <input
+                      type="file"
+                      class="custom-file-input"
+                      v-on:change="onPhotoChange"
+                      accept=".jpg, .jpeg, .png"
+                      style="display: none;"
+                    >
+                  </span>
+                </label>
+                <input type="text" class="form-control" :value="filename" readonly>
+              </div>
+
             <div class="form-control">
                 <button type="submit" class="btn-submit">Register</button>
             </div>
@@ -39,6 +55,8 @@
                 email: '',
                 password: '',
                 nif: '',
+                filename: '',
+                photo: '',
             }
         },
         methods: {
@@ -48,10 +66,16 @@
                     email: this.email,
                     password: this.password,
                     nif: this.nif,
+                    photo: this.photo,
                 })
                     .then(response => {
                         this.$router.push({name: 'login'});
                     })
+            },
+
+            onPhotoChange(e){
+                this.photo = e.target.files[0];
+                this.filename = this.photo.name;
             }
         }
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\User;
 
 define('SERVER_URL', env('PASSPORT_URL'));
 define('CLIENT_ID', env('PASSPORT_ID'));
@@ -20,14 +21,21 @@ class LoginControllerAPI extends Controller
                 'client_id' => CLIENT_ID,
                 'client_secret' => CLIENT_SECRET,
                 'username' => $request->email,
-                'password' => $request->password,
+                'password' => $request->get('password'),
                 'scope' => ''
             ],
             'exceptions' => false,
         ]);
         $errorCode= $response->getStatusCode();
         if ($errorCode=='200') {
-            return json_decode((string) $response->getBody(), true);
+            //return json_decode((string) $response->getBody(), true);
+            $user = User::where('email', $request->email)->get()->first();
+
+            return response()->json([
+                'token' => json_decode((string) $response->getBody(), true),
+                'user' => $user,
+                'status' => 200
+            ]);
         } else {
             return response()->json(
                 ['msg'=>'User credentials are invalid'], $errorCode);

@@ -32,9 +32,9 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function department()
+    public function wallet()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Wallet::class);
     }
 }
 
