@@ -25,6 +25,9 @@ Route::middleware('auth:api')->put('users/{id}',
     'UserControllerAPI@update');
 Route::middleware('auth:api')->post('photo', 
     'UserControllerAPI@updatePhoto');
+Route::middleware('auth:api')->get('users/me', 
+    'UserControllerAPI@show');
+
 
 Route::get('departments', 'DepartmentControllerAPI@index');
 Route::get('users', 'UserControllerAPI@index');

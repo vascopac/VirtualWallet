@@ -24,9 +24,9 @@ class UserControllerAPI extends Controller
         }
     }
 
-    public function show($id)
+    public function show(Request $request)
     {
-        return new UserResource(User::find($id));
+        return new UserResource($request->user());
     }
 
     public function store(Request $request)

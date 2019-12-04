@@ -1,5 +1,3 @@
-import Login from "./components/Auth/Login";
-
 require('./bootstrap');
 
 import Vue from 'vue'
@@ -22,7 +20,7 @@ const app = new Vue({
     store,
   components: {Master},
     template: '<Master/>',
-    mounted(){
+    created(){
       this.$store.commit('loadTokenAndUserFromSession');
     }
 }).$mount('#app');

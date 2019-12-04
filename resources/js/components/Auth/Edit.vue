@@ -38,7 +38,7 @@
 	export default {
 		data() {
 			return {
-				user: sessionStorage.getItem('user'),
+				user: '',
 				photo: '',
 			}
 		},
@@ -55,10 +55,16 @@
 			onPhotoChange(e){
                 this.photo = e.target.files[0];
                 this.user.photo = this.photo.name;
-            }
+			},
+			getUserInfo(){
+				axios.get('api/users/me')
+					.then(response => {
+						this.user = response.data.data;
+					})
+			}
 		},
 		mounted() {
-			this.user = JSON.parse(this.user);
+			this.getUserInfo();
 		}
 	}
 </script>

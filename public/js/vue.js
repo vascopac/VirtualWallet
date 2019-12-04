@@ -1877,7 +1877,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      user: sessionStorage.getItem('user'),
+      user: '',
       photo: ''
     };
   },
@@ -1896,10 +1896,17 @@ __webpack_require__.r(__webpack_exports__);
     onPhotoChange: function onPhotoChange(e) {
       this.photo = e.target.files[0];
       this.user.photo = this.photo.name;
+    },
+    getUserInfo: function getUserInfo() {
+      var _this = this;
+
+      axios.get('api/users/me').then(function (response) {
+        _this.user = response.data.data;
+      });
     }
   },
   mounted: function mounted() {
-    this.user = JSON.parse(this.user);
+    this.getUserInfo();
   }
 });
 
@@ -37714,37 +37721,34 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_Auth_Login__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Auth/Login */ "./resources/js/components/Auth/Login.vue");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _components_layouts_Master__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/layouts/Master */ "./resources/js/components/layouts/Master.vue");
-/* harmony import */ var _store_store_global__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store/store-global */ "./resources/js/store/store-global.js");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
-
-
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_layouts_Master__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/layouts/Master */ "./resources/js/components/layouts/Master.vue");
+/* harmony import */ var _store_store_global__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/store-global */ "./resources/js/store/store-global.js");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_3__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 
 
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
-  routes: _routes__WEBPACK_IMPORTED_MODULE_6__["default"]
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
+  routes: _routes__WEBPACK_IMPORTED_MODULE_5__["default"]
 });
-var app = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
+var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   router: router,
-  store: _store_store_global__WEBPACK_IMPORTED_MODULE_5__["default"],
+  store: _store_store_global__WEBPACK_IMPORTED_MODULE_4__["default"],
   components: {
-    Master: _components_layouts_Master__WEBPACK_IMPORTED_MODULE_4__["default"]
+    Master: _components_layouts_Master__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   template: '<Master/>',
-  mounted: function mounted() {
+  created: function created() {
     this.$store.commit('loadTokenAndUserFromSession');
   }
 }).$mount('#app');
