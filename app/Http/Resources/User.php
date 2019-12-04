@@ -20,6 +20,7 @@ class User extends Resource
             'email' => $this->email,
             'nif' => $this->nif,
             'photo' => $this->photo,
+            'wallet' => $this->wallet->balance
         ];
     }
 }

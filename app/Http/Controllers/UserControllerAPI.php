@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 use App\User;
+use App\Wallet;
 use App\StoreUserRequest;
 use Hash;
 
@@ -48,7 +49,12 @@ class UserControllerAPI extends Controller
             $user->photo = $imageName;
         };
         $user->save();
-        return response()->json(new UserResource($user), 201);
+        $wallet = new Wallet();
+        $wallet->id = $user->id;
+        $wallet->email = $user->email;
+        $wallet->balance = 0;
+        $wallet->save();
+        return new UserResource($user);
     }
 
     public function update(Request $request, $id)

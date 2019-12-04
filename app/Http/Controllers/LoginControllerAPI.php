@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\User as UserResource;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\User;
@@ -33,7 +35,7 @@ class LoginControllerAPI extends Controller
 
             return response()->json([
                 'token' => json_decode((string) $response->getBody(), true),
-                'user' => $user,
+                'user' => new UserResource($user),
                 'status' => 200
             ]);
         } else {
