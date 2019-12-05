@@ -22,10 +22,14 @@ class Movement extends Model
         return $this->hasOne(Wallet::class, 'id');
     }
 
-    /*
+    public function transferWallet()
+    {
+        return $this->hasOne(Wallet::class, 'id', 'transfer_wallet_id');
+    }
+
     public function category()
     {
-        return $this->hasOne(Category::class, 'id');
+        return $this->hasOne(Category::class, 'id', 'category_id');
     }
-    */
+    
 }

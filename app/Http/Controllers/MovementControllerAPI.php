@@ -14,7 +14,6 @@ class MovementControllerAPI extends Controller
     public function index(Request $request, $id)
     {
         $wallet = Wallet::findOrFail($id);
-        
         return MovementResource::collection($wallet->movements()->orderBy('date', 'desc')->get());
     }
 }

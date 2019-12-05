@@ -17,11 +17,14 @@ class Movement extends JsonResource
         return [
             'id' => $this->id,
             'type' => $this->type,
+            'transfer' => $this->transfer,
             'type_payment' => $this->type_payment,
             'date' => $this->date,
             'start_balance' => $this->start_balance,
             'end_balance' => $this->end_balance,
             'value' => $this->value,
+            'transfer_email' => $this->transfer == 1 ?$this->transferWallet->email : '-',
+            'category' => $this->category_id != null ? $this->category->name : '-',
         ];
     }
 }

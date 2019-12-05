@@ -18,9 +18,9 @@
                 <td>{{ movement.date }}</td>
                 <td>{{ movement.id }}</td>
                 <td>{{ movement.type }}</td>
-                <td>{{  }}</td>
+                <td>{{ movement.transfer_email }}</td>
                 <td> {{ movement.type_payment }}</td>
-                <td>{{  }}</td>
+                <td>{{ movement.category }}</td>
                 <td>{{ movement.start_balance }}</td>
                 <td>{{ movement.end_balance }}</td>
                 <td>{{ movement.value }}</td>
