@@ -3,6 +3,7 @@ import LoginComponent from "./components/Auth/Login";
 import RegisterComponent from "./components/Auth/Register";
 import LogoutComponent from "./components/Auth/Logout";
 import EditComponent from "./components/Auth/Edit";
+import MovementList from "./components/Movements/MovementList";
 
 
 
@@ -32,6 +33,14 @@ const routes = [
         path: '/edit',
         component: EditComponent,
         name: 'edit',
+        meta: {
+            requiresVisitors: true
+        }
+    },
+    {
+        path: '/movements',
+        component: MovementList,
+        name: 'movements',
         meta: {
             requiresVisitors: true
         }

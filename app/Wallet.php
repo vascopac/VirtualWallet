@@ -16,4 +16,9 @@ class Wallet extends Model
     {
         return $this->belongsTo(User::class, 'id');
     }
+
+    public function movements()
+    {
+        return $this->hasMany(Movement::class, 'wallet_id');
+    }
 }

@@ -5,6 +5,7 @@
             <li v-if="!loggedIn"><router-link :to="{ name: 'login' }">Login</router-link></li>
             <li v-if="!loggedIn"><router-link :to="{ name: 'register' }">Register</router-link></li>            
             <li v-if="loggedIn"><router-link :to="{ name: 'edit' }">Edit</router-link></li>
+            <li v-if="loggedIn"><router-link :to="{ name: 'movements' }">Movements</router-link></li>
             <li v-if="loggedIn"><router-link :to="{ name: 'logout' }">Logout</router-link></li>
         </ul>
 
