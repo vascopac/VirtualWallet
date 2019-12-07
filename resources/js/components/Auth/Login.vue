@@ -1,22 +1,29 @@
 <template>
-    <div class="login-form">
-        <h2 class="login-heading">Login</h2>
-        <form action="#" @submit.prevent="login">
-            <div class="form-control">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" class="login-input" v-model="email">
-            </div>
-
-            <div class="form-control mb-more">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="login-input" v-model="password">
-            </div>
-
-            <div class="form-control">
-                <button type="submit" class="btn-submit">Login</button>
-            </div>
-        </form>
-    </div>
+  <v-form
+    ref="form"
+    class="jumbotron"
+    lazy-validation
+  >
+  <h2 class="login-heading">Login</h2>
+    <v-text-field
+      v-model="email"
+      label="E-mail"
+      required
+    ></v-text-field>
+    <v-text-field
+      v-model="password"
+      label="Password"
+      type="password"
+      required
+    ></v-text-field>
+    <v-btn
+      color="success"
+      class="mr-4"
+      @click="login"
+    >
+      Login
+    </v-btn>
+  </v-form>
 </template>
 
 <script>
@@ -41,7 +48,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

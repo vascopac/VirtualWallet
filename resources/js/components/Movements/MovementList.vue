@@ -1,41 +1,29 @@
 <template>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>ID</th>
-                <th>Type</th>
-                <th>Transfer Email</th>
-                <th>Type of payment</th>
-                <th>Category</th>
-                <th>Start Balance</th>
-                <th>End Balance </th>
-                <th>Value</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="movement in movements"  :key="movement.id">
-                <td>{{ movement.date }}</td>
-                <td>{{ movement.id }}</td>
-                <td>{{ movement.type }}</td>
-                <td>{{ movement.transfer_email }}</td>
-                <td> {{ movement.type_payment }}</td>
-                <td>{{ movement.category }}</td>
-                <td>{{ movement.start_balance }}</td>
-                <td>{{ movement.end_balance }}</td>
-                <td>{{ movement.value }}</td>
-            </tr>
-        </tbody>
-    </table>
+  <v-data-table
+    :headers="headers"
+    :items="movements"
+    :items-per-page="5"
+    class="elevation-1"
+  ></v-data-table>
 </template>
 
 <script>
-export default {
-    data: function(){
-        return {
-            wallet: '',
-            movements: [],
-        }
+  export default {
+    data () {
+      return {
+        headers: [
+            { text: 'Date', value: 'date' },
+            { text: 'ID', value: 'id' },
+            { text: 'Type', value: 'type' },
+            { text: 'Transfer Email', value: 'transfer_email' },
+            { text: 'Type of payment', value: 'type_payment' },
+            { text: 'Category', value: 'category' },
+            { text: 'Start Balance', value: 'start_balance' },
+            { text: 'End Balance', value: 'end_balance' },
+            { text: 'Value', value: 'value' },
+        ],
+        movements: [],
+      }
     },
     methods: {
         getWallet: function(){
@@ -49,6 +37,7 @@ export default {
             axios.get('api/movements/' + this.wallet.id)
                 .then(response =>{
                     this.movements = response.data.data;
+                    console.log(this.movements);
                 })
                 .catch(error =>{
                     console.log(error);
@@ -58,19 +47,5 @@ export default {
     created() {
         this.getWallet();
     },
-}
+  }
 </script>
-
-<style scoped>
-    .pagination {
-        display: inline-block;
-    }
-
-    .pagination a {
-        color: black;
-        float: left;
-        padding: 8px 16px;
-        text-decoration: none;
-        border: 1px solid #ddd;
-    }
-</style>

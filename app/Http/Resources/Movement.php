@@ -18,7 +18,7 @@ class Movement extends JsonResource
             'id' => $this->id,
             'type' => $this->type,
             'transfer' => $this->transfer,
-            'type_payment' => $this->type_payment,
+            'type_payment' => $this->type_payment != null ? $this->type_payment : '-',
             'date' => $this->date,
             'start_balance' => $this->start_balance,
             'end_balance' => $this->end_balance,

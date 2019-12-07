@@ -1,37 +1,43 @@
 <template>
-    <div class="jumbotron">
-	    <h2>Edit User</h2>
-	    <div class="form-control">
-            <label for="name">Name</label>
-            <input type="name" name="name" id="name" class="login-input" v-model="user.name">
-        </div>
-
-        <div class="form-control">
-            <label for="nif">NIF</label>
-            <input type="number" name="nif" id="nif" class="login-input" v-model="user.nif">
-        </div>
-
-		<div class="input-group">
-                <label class="input-group-btn">
-                  <span class="btn btn-primary">
-                    Browse:
-                    <input
-                      type="file"
-                      class="custom-file-input"
-                      v-on:change="onPhotoChange"
-                      accept=".jpg, .jpeg, .png"
-                      style="display: none;"
-                    >
-                  </span>
-                </label>
-                <input type="text" class="form-control" :value="user.photo" readonly>
-        </div>
-
-	    <div class="form-group">
-	        <a class="btn btn-primary" v-on:click.prevent="saveUser()">Save</a>
-	        <a class="btn btn-light" v-on:click.prevent="cancelEdit()">Cancel</a>
-	    </div>
-	</div>
+  <v-form
+    ref="form"
+    class="jumbotron"
+    lazy-validation
+  >
+  <h2>Edit</h2>
+    <v-text-field
+      v-model="user.name"
+      label="Name"
+      required
+    ></v-text-field>
+    <v-text-field
+      v-model="user.nif"
+      label="NIF"
+      type="number"
+      required
+    ></v-text-field>
+    <v-file-input
+        accept="image/png, image/jpeg, image/bmp"
+        type="file"
+        prepend-icon="mdi-camera"
+        v-on:change="onPhotoChange"
+        label="Avatar"
+  ></v-file-input>
+    <v-btn
+      color="success"
+      class="mr-4"
+      @click="saveUser"
+    >
+      Save
+    </v-btn>
+	<v-btn
+      color="cancel"
+      class="mr-4"
+      @click="cancelEdit"
+    >
+      Cancel
+    </v-btn>
+  </v-form>
 </template>
 
 <script>
@@ -53,7 +59,7 @@
 	            this.$router.push({name: 'home'});
 			}, 
 			onPhotoChange(e){
-                this.photo = e.target.files[0];
+                this.photo = e;
                 this.user.photo = this.photo.name;
 			},
 			getUserInfo(){
