@@ -23,8 +23,14 @@ class Movement extends JsonResource
             'start_balance' => $this->start_balance,
             'end_balance' => $this->end_balance,
             'value' => $this->value,
-            'transfer_email' => $this->transfer == 1 ?$this->transferWallet->email : '-',
+            'transfer_email' => $this->transfer == 1 ? $this->transferWallet->email : '-',
             'category' => $this->category_id != null ? $this->category->name : '-',
+            'description' => $this->description,
+            'source_description' => $this->source_description,
+            'iban' => $this->iban,
+            'mb_entity_code' => $this->mb_entity_code,
+            'mb_payment_reference' => $this->mb_payment_reference,
+            'photo' => $this->transfer == 1 ? $this->transferWallet->user->photo : '',
         ];
     }
 }
