@@ -2117,6 +2117,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Home.vue",
   data: function data() {
@@ -20844,7 +20851,39 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n    " + _vm._s(this.numWallets) + "\n")])
+  return _c(
+    "v-app",
+    { staticClass: "blue lighten-2" },
+    [
+      _c(
+        "v-content",
+        [
+          _c(
+            "v-container",
+            { staticClass: "fill-height", attrs: { fluid: "" } },
+            [
+              _c("v-flex", { staticClass: "text-xl-center" }, [
+                _c("h1", { staticClass: "white--text display-4" }, [
+                  _vm._v("Welcome To Virtual Wallet!")
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "white--text display-1" }, [
+                  _vm._v(
+                    "We Currently Have " +
+                      _vm._s(this.numWallets) +
+                      " Virtual Wallets"
+                  )
+                ])
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -75748,8 +75787,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/vascopacheco/Desktop/DAD/Projeto/virtualwallet/resources/js/vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! /Users/vascopacheco/Desktop/DAD/Projeto/virtualwallet/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\laragon\www\VirtualWallet\resources\js\vue.js */"./resources/js/vue.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\VirtualWallet\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

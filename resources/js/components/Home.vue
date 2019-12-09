@@ -1,7 +1,14 @@
 <template>
-    <div>
-        {{this.numWallets}}
-    </div>
+    <v-app class="blue lighten-2">
+        <v-content>
+            <v-container class="fill-height" fluid>
+                <v-flex class="text-xl-center">
+                    <h1 class="white--text display-4">Welcome To Virtual Wallet!</h1>
+                    <p class="white--text display-1">We Currently Have {{this.numWallets}} Virtual Wallets</p>
+                </v-flex>
+            </v-container>
+        </v-content>
+    </v-app>
 </template>
 
 <script>
