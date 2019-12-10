@@ -4,15 +4,12 @@
     :items="movements"
     :items-per-page="5"
     class="jumbotron"
+    :search="search"
+    :custom-filter="filterOnlyCapsText"
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
         <v-toolbar-title>Movements</v-toolbar-title>
-        <v-divider
-          class="mx-4"
-          inset
-          vertical
-        ></v-divider>
         <v-spacer></v-spacer>
         <v-dialog v-model="dialog">
           <v-card>
@@ -48,6 +45,16 @@
           </v-card>
         </v-dialog>
       </v-toolbar>
+      <v-text-field v-model="search" label="Search (UPPER CASE ONLY)" class="mx-4"></v-text-field>
+    </template>
+    <template v-slot:body.append>
+        <tr>
+          <td></td>
+          <td>
+            <v-text-field v-model="id" type="number" label="Search ID"></v-text-field>
+          </td>
+          <td colspan="8"></td>
+        </tr>
     </template>
     <template v-slot:item.details="{ item }">
       <v-icon
@@ -66,9 +73,19 @@
     data () {
       return {
         dialog: false,
+        search: '',
+        id: '',
         headers: [
             { text: 'Date', value: 'date' },
-            { text: 'ID', value: 'id' },
+            { 
+              text: 'ID', 
+              value: 'id' ,
+              filter: value => {
+                if(!this.id) return true
+
+                return value == parseInt(this.id)
+              },
+            },
             { text: 'Type', value: 'type' },
             { text: 'Transfer Email', value: 'transfer_email' },
             { text: 'Type of payment', value: 'type_payment' },
@@ -80,7 +97,6 @@
         ],
         movements: [],
         movement: '',
-        index: '',
         isTransfer: false,
       }
     },
@@ -113,6 +129,13 @@
           this.dialog = false;
           this.isTransfer = false;
         },
+
+        filterOnlyCapsText (value, search, item) {
+        return value != null &&
+          search != null &&
+          typeof value === 'string' &&
+          value.toString().toLocaleUpperCase().indexOf(search) !== -1
+      },
     },
     watch: {
       dialog (val) {

@@ -16,9 +16,9 @@ class Movement extends JsonResource
     {
         return [
             'id' => $this->id,
-            'type' => $this->type,
+            'type' => $this->type == 'e' ? 'Expense' : 'Income',
             'transfer' => $this->transfer,
-            'type_payment' => $this->type_payment != null ? $this->type_payment : '-',
+            'type_payment' => $this->type_payment != null ? ($this->type_payment == 'c' ? 'Cash' : ($this->type_payment == 'bt' ? 'Bank Transfer' : 'MB')) : '-',
             'date' => $this->date,
             'start_balance' => $this->start_balance,
             'end_balance' => $this->end_balance,

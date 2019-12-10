@@ -2213,16 +2213,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
+    var _this = this;
+
     return {
       dialog: false,
+      search: '',
+      id: '',
       headers: [{
         text: 'Date',
         value: 'date'
       }, {
         text: 'ID',
-        value: 'id'
+        value: 'id',
+        filter: function filter(value) {
+          if (!_this.id) return true;
+          return value == parseInt(_this.id);
+        }
       }, {
         text: 'Type',
         value: 'type'
@@ -2251,25 +2266,24 @@ __webpack_require__.r(__webpack_exports__);
       }],
       movements: [],
       movement: '',
-      index: '',
       isTransfer: false
     };
   },
   methods: {
     getWallet: function getWallet() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('api/users/me').then(function (response) {
-        _this.wallet = response.data.data;
+        _this2.wallet = response.data.data;
 
-        _this.getMovements();
+        _this2.getMovements();
       });
     },
     getMovements: function getMovements() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get('api/movements/' + this.wallet.id).then(function (response) {
-        _this2.movements = response.data.data;
+        _this3.movements = response.data.data;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2287,6 +2301,9 @@ __webpack_require__.r(__webpack_exports__);
     close: function close() {
       this.dialog = false;
       this.isTransfer = false;
+    },
+    filterOnlyCapsText: function filterOnlyCapsText(value, search, item) {
+      return value != null && search != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(search) !== -1;
     }
   },
   watch: {
@@ -20870,7 +20887,13 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("v-data-table", {
     staticClass: "jumbotron",
-    attrs: { headers: _vm.headers, items: _vm.movements, "items-per-page": 5 },
+    attrs: {
+      headers: _vm.headers,
+      items: _vm.movements,
+      "items-per-page": 5,
+      search: _vm.search,
+      "custom-filter": _vm.filterOnlyCapsText
+    },
     scopedSlots: _vm._u([
       {
         key: "top",
@@ -20881,11 +20904,6 @@ var render = function() {
               { attrs: { flat: "", color: "white" } },
               [
                 _c("v-toolbar-title", [_vm._v("Movements")]),
-                _vm._v(" "),
-                _c("v-divider", {
-                  staticClass: "mx-4",
-                  attrs: { inset: "", vertical: "" }
-                }),
                 _vm._v(" "),
                 _c("v-spacer"),
                 _vm._v(" "),
@@ -21006,7 +21024,49 @@ var render = function() {
                 )
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            _c("v-text-field", {
+              staticClass: "mx-4",
+              attrs: { label: "Search (UPPER CASE ONLY)" },
+              model: {
+                value: _vm.search,
+                callback: function($$v) {
+                  _vm.search = $$v
+                },
+                expression: "search"
+              }
+            })
+          ]
+        },
+        proxy: true
+      },
+      {
+        key: "body.append",
+        fn: function() {
+          return [
+            _c("tr", [
+              _c("td"),
+              _vm._v(" "),
+              _c(
+                "td",
+                [
+                  _c("v-text-field", {
+                    attrs: { type: "number", label: "Search ID" },
+                    model: {
+                      value: _vm.id,
+                      callback: function($$v) {
+                        _vm.id = $$v
+                      },
+                      expression: "id"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("td", { attrs: { colspan: "8" } })
+            ])
           ]
         },
         proxy: true
