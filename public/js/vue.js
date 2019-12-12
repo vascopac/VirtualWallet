@@ -2227,14 +2227,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _this = this;
 
     return {
       dialog: false,
-      search: '',
       id: '',
+      type: '',
+      email: '',
+      search: '',
       headers: [{
         text: 'Date',
         value: 'date'
@@ -2310,7 +2322,7 @@ __webpack_require__.r(__webpack_exports__);
       this.isTransfer = false;
     },
     filterOnlyCapsText: function filterOnlyCapsText(value, search, item) {
-      return value != null && search != null && typeof value === 'string' && value.toString().toLocaleUpperCase().indexOf(search) !== -1;
+      return value != null && search != null && typeof value === 'string' && value.toString().indexOf(search) !== -1;
     }
   },
   watch: {
@@ -2334,6 +2346,33 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -21104,7 +21143,49 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("td", { attrs: { colspan: "8" } })
+              _c(
+                "td",
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      label: "Search Type",
+                      search: _vm.type,
+                      "custom-filter": _vm.filterOnlyCapsText
+                    },
+                    model: {
+                      value: _vm.search,
+                      callback: function($$v) {
+                        _vm.search = $$v
+                      },
+                      expression: "search"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                [
+                  _c("v-text-field", {
+                    attrs: {
+                      label: "Search Email",
+                      search: _vm.email,
+                      "custom-filter": _vm.filterOnlyCapsText
+                    },
+                    model: {
+                      value: _vm.search,
+                      callback: function($$v) {
+                        _vm.search = $$v
+                      },
+                      expression: "search"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("td", { attrs: { colspan: "6" } })
             ])
           ]
         },
@@ -21181,7 +21262,7 @@ var render = function() {
                 !_vm.loggedIn
                   ? _c(
                       "v-btn",
-                      { attrs: { text: "" } },
+                      _vm._g({}, _vm.on),
                       [
                         _c(
                           "router-link",
@@ -21196,7 +21277,7 @@ var render = function() {
                 !_vm.loggedIn
                   ? _c(
                       "v-btn",
-                      { attrs: { text: "" } },
+                      _vm._g({}, _vm.on),
                       [
                         _c(
                           "router-link",
@@ -21210,26 +21291,51 @@ var render = function() {
                 _vm._v(" "),
                 _vm.loggedIn
                   ? _c(
-                      "v-btn",
-                      { attrs: { text: "" } },
+                      "v-menu",
+                      {
+                        attrs: { "offset-y": "" },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                return [
+                                  _c("v-btn", _vm._g({}, on), [
+                                    _vm._v(
+                                      "\n                    Movements\n                    "
+                                    )
+                                  ])
+                                ]
+                              }
+                            }
+                          ],
+                          null,
+                          false,
+                          2655763469
+                        )
+                      },
                       [
-                        _c("router-link", { attrs: { to: { name: "edit" } } }, [
-                          _vm._v("Edit")
-                        ])
-                      ],
-                      1
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.loggedIn
-                  ? _c(
-                      "v-btn",
-                      { attrs: { text: "" } },
-                      [
+                        _vm._v(" "),
                         _c(
-                          "router-link",
-                          { attrs: { to: { name: "movements" } } },
-                          [_vm._v("Movements")]
+                          "v-list",
+                          [
+                            _vm.loggedIn
+                              ? _c(
+                                  "v-btn",
+                                  { attrs: { text: "" } },
+                                  [
+                                    _c(
+                                      "router-link",
+                                      { attrs: { to: { name: "movements" } } },
+                                      [_vm._v("List")]
+                                    )
+                                  ],
+                                  1
+                                )
+                              : _vm._e()
+                          ],
+                          1
                         )
                       ],
                       1
@@ -21238,13 +21344,62 @@ var render = function() {
                 _vm._v(" "),
                 _vm.loggedIn
                   ? _c(
-                      "v-btn",
-                      { attrs: { text: "" } },
+                      "v-menu",
+                      {
+                        attrs: { "offset-y": "" },
+                        scopedSlots: _vm._u(
+                          [
+                            {
+                              key: "activator",
+                              fn: function(ref) {
+                                var on = ref.on
+                                return [
+                                  _c("v-btn", _vm._g({}, on), [
+                                    _vm._v(
+                                      "\n                    User\n                    "
+                                    )
+                                  ])
+                                ]
+                              }
+                            }
+                          ],
+                          null,
+                          false,
+                          723347180
+                        )
+                      },
                       [
+                        _vm._v(" "),
                         _c(
-                          "router-link",
-                          { attrs: { to: { name: "logout" } } },
-                          [_vm._v("Logout")]
+                          "v-list",
+                          [
+                            _c(
+                              "v-btn",
+                              { attrs: { text: "" } },
+                              [
+                                _c(
+                                  "router-link",
+                                  { attrs: { to: { name: "edit" } } },
+                                  [_vm._v("Edit")]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              { attrs: { text: "" } },
+                              [
+                                _c(
+                                  "router-link",
+                                  { attrs: { to: { name: "logout" } } },
+                                  [_vm._v("Logout")]
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
                         )
                       ],
                       1
@@ -75847,8 +76002,8 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\VirtualWallet\resources\js\vue.js */"./resources/js/vue.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\VirtualWallet\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/vascopacheco/Desktop/DAD/Projeto/virtualwallet/resources/js/vue.js */"./resources/js/vue.js");
+module.exports = __webpack_require__(/*! /Users/vascopacheco/Desktop/DAD/Projeto/virtualwallet/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

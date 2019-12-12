@@ -53,7 +53,17 @@
           <td>
             <v-text-field v-model="id" type="number" label="Search ID"></v-text-field>
           </td>
-          <td colspan="8"></td>
+          <td>
+            <v-text-field v-model="search" label="Search Type" 
+              :search="type"
+              :custom-filter="filterOnlyCapsText" ></v-text-field>
+          </td>
+          <td>
+            <v-text-field v-model="search" label="Search Email" 
+              :search="email"
+              :custom-filter="filterOnlyCapsText" ></v-text-field>
+          </td>
+          <td colspan="6"></td>
         </tr>
     </template>
     <template v-slot:item.details="{ item }">
@@ -73,8 +83,10 @@
     data () {
       return {
         dialog: false,
-        search: '',
         id: '',
+        type: '',
+        email: '',
+        search: '',
         headers: [
             { text: 'Date', value: 'date' },
             { 
@@ -131,10 +143,10 @@
         },
 
         filterOnlyCapsText (value, search, item) {
-        return value != null &&
-          search != null &&
+          return value != null &&
+          search  != null &&
           typeof value === 'string' &&
-          value.toString().toLocaleUpperCase().indexOf(search) !== -1
+          value.toString().indexOf(search) !== -1
       },
     },
     watch: {
