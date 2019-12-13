@@ -4,7 +4,7 @@
     class="jumbotron"
     lazy-validation
   >
-  <h2>Edit</h2>
+  <h2>Edit User</h2>
     <v-text-field
       v-model="user.name"
       label="Name"
@@ -49,25 +49,25 @@
 			}
 		},
 	    methods: {
-	        saveUser: function(){
-				this.$store.dispatch('edit', {
-					photo: this.photo,
-					user: this.user,
-				})
-	        },
-	        cancelEdit: function(){
-	            this.$router.push({name: 'home'});
-			}, 
-			onPhotoChange(e){
-                this.photo = e;
-                this.user.photo = this.photo.name;
-			},
-			getUserInfo(){
-				axios.get('api/users/me')
+	      saveUser: function(){
+				  this.$store.dispatch('edit', {
+            photo: this.photo,
+            user: this.user,
+				  })
+	      },
+	      cancelEdit: function(){
+	        this.$router.push({name: 'home'});
+		  	}, 
+			  onPhotoChange(e){
+          this.photo = e;
+          this.user.photo = this.photo.name;
+  			},
+			  getUserInfo(){
+				  axios.get('api/users/me')
 					.then(response => {
 						this.user = response.data.data;
 					})
-			}
+			  }
 		},
 		mounted() {
 			this.getUserInfo();

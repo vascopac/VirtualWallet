@@ -3,6 +3,7 @@ import LoginComponent from "./components/Auth/Login";
 import RegisterComponent from "./components/Auth/Register";
 import LogoutComponent from "./components/Auth/Logout";
 import EditComponent from "./components/Auth/Edit";
+import PasswordComponent from "./components/Auth/Password";
 import MovementList from "./components/Movements/MovementList";
 
 
@@ -17,9 +18,6 @@ const routes = [
         path: '/login',
         component: LoginComponent,
         name: 'login',
-        meta: {
-            requiresVisitors: true
-        }
     },
     {
         path: '/register',
@@ -33,17 +31,16 @@ const routes = [
         path: '/edit',
         component: EditComponent,
         name: 'edit',
-        meta: {
-            requiresVisitors: true
-        }
+    },
+    {
+        path: '/password',
+        component: PasswordComponent,
+        name: 'password',
     },
     {
         path: '/movements',
         component: MovementList,
         name: 'movements',
-        meta: {
-            requiresVisitors: true
-        }
     },
     {
         path: '/logout',

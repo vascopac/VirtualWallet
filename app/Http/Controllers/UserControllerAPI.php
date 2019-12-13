@@ -68,6 +68,18 @@ class UserControllerAPI extends Controller
         return new UserResource($user);
     }
 
+    public function editPassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $new_password = bcrypt($request['newPassword']);
+        if (Hash::check($request['oldPassword'], $user->password)) {
+            $user->password = $new_password;
+            $user->update();
+            return new UserResource($user, 200);
+        }
+        return response()->json(null, 403);
+    }
+
     public function updatePhoto(Request $request)
     {
         $request->validate([

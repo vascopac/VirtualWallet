@@ -11,6 +11,10 @@ export default new Vuex.Store({
         loggedIn(state){
             return state.token !== "";
         },
+        isAdmin(state){
+            console.log(state);
+            return state.user.type == "a";
+        },
         
     },
     mutations: {

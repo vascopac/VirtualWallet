@@ -36,7 +36,9 @@
                         </v-btn>
                     </template>
                     <v-list>
-                        <v-btn text><router-link :to="{ name: 'edit' }">Edit</router-link></v-btn>
+                        <v-btn text v-if="isAdmin">List</v-btn>
+                        <v-btn text><router-link :to="{ name: 'edit' }">Edit Account</router-link></v-btn>
+                        <v-btn text><router-link :to="{ name: 'password' }">Change Password</router-link></v-btn>
                         <v-btn text><router-link :to="{ name: 'logout' }">Logout</router-link></v-btn>
                     </v-list>
                 </v-menu>
@@ -52,6 +54,9 @@
         computed: {
             loggedIn(){
                 return this.$store.getters.loggedIn;
+            },
+            isAdmin(){
+                return this.$store.getters.isAdmin;
             }
         }
     }
