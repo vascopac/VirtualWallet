@@ -9,34 +9,34 @@
             <v-toolbar-items>
                 <v-btn 
                 v-if="!loggedIn"
-                v-on="on"
+                text
                 ><router-link :to="{ name: 'login' }">Login</router-link></v-btn>
                 <v-btn 
                 v-if="!loggedIn"
-                v-on="on"
+                text
                 ><router-link :to="{ name: 'register' }">Register</router-link></v-btn>
                 <v-menu offset-y v-if="loggedIn">
                     <template v-slot:activator="{ on }">
                         <v-btn
                         v-on="on"
                         >
-                        Movements
+                        Wallet
                         </v-btn>
                     </template>
                     <v-list>
-                        <v-btn text v-if="loggedIn"><router-link :to="{ name: 'movements' }">List</router-link></v-btn>
+                        <v-btn text v-if="loggedIn"><router-link :to="{ name: 'movements' }">Movements</router-link></v-btn>
                     </v-list>
                 </v-menu>
                 <v-menu offset-y v-if="loggedIn">
                     <template v-slot:activator="{ on }">
-                        <v-btn
+                        <v-btn 
                         v-on="on"
                         >
                         User
                         </v-btn>
                     </template>
                     <v-list>
-                        <v-btn text v-if="isAdmin">List</v-btn>
+                        <v-btn text v-if="isAdmin"><router-link :to="{ name: 'users' }">List</router-link></v-btn>
                         <v-btn text><router-link :to="{ name: 'edit' }">Edit Account</router-link></v-btn>
                         <v-btn text><router-link :to="{ name: 'password' }">Change Password</router-link></v-btn>
                         <v-btn text><router-link :to="{ name: 'logout' }">Logout</router-link></v-btn>

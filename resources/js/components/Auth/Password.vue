@@ -12,18 +12,16 @@
     ></v-text-field>
     <v-text-field
       v-model="request.newPassword"
-      :rules="[rules.required, rules.min]"
+      :rules="passwordRules"
       label="New Password"
       type="password"
-      counter
       required
     ></v-text-field>
     <v-text-field
       v-model="confirmPassword"
-      :rules="[rules.required, rules.min]"
+      :rules="passwordRules"
       label="Confirm New Password"
       type="password"
-      counter
       required
     ></v-text-field>
     <v-btn
@@ -53,10 +51,10 @@ export default {
             },
             confirmPassword: '',
             user: '',
-            rules: {
-                required: value => !!value || 'Required.',
-                min: v => v.lenght >= 3 || 'Min 3 characters',
-            },
+            passwordRules: [
+                value => !!value || 'Required.',
+                value => value.lenght >= 3 || 'Min 3 characters',
+            ],
         }
     },
     methods: {
@@ -84,10 +82,6 @@ export default {
             } else {
                 console.log('pass diferente');
             }
-
-            
-
-
         },
     },
     mounted() {

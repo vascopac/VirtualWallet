@@ -33,6 +33,8 @@ Route::middleware('auth:api')->get('movements/{id}',
     'MovementControllerAPI@index');
 Route::middleware('auth:api')->patch('user/{id}/edit/password',
     'UserControllerAPI@editPassword');
+Route::middleware('auth:api')->get('users',
+    'UserControllerAPI@index');
 
 
 

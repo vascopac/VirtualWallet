@@ -1,11 +1,10 @@
 <template>
+<div>
   <v-data-table
     :headers="headers"
     :items="movements"
     :items-per-page="5"
     class="jumbotron"
-    :search="search"
-    :custom-filter="filterOnlyCapsText"
   >
     <template v-slot:top>
       <v-toolbar flat color="white">
@@ -16,7 +15,6 @@
             <v-card-title>
               <span class="headline">{{ "More Details" }}</span>
             </v-card-title>
-
             <v-card-text>
               <v-subheader class="blue">Description</v-subheader>
               <div>{{ movement.description || '-' }}</div>
@@ -37,7 +35,6 @@
                 ></v-img>
               </div>
             </v-card-text>
-
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="close">Close</v-btn>
@@ -45,25 +42,77 @@
           </v-card>
         </v-dialog>
       </v-toolbar>
-      <v-text-field v-model="search" label="Search (UPPER CASE ONLY)" class="mx-4"></v-text-field>
+      <v-row>
+        <v-col cols="10" sm="6" md="2">
+        <v-menu
+          v-model="menu1"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="290px"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="dateStart"
+              label="Date Start"
+              readonly
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="dateStart" @input="menu1 = false"></v-date-picker>
+        </v-menu>
+        </v-col>
+        <v-col cols="10" sm="6" md="2">
+        <v-menu
+          v-model="menu2"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="290px"
+        >
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="dateEnd"
+              label="Date End"
+              readonly
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="dateEnd" @input="menu2 = false"></v-date-picker>
+        </v-menu>
+      </v-col>
+    </v-row>
     </template>
     <template v-slot:body.append>
         <tr>
-          <td></td>
+          <td>
+          </td>
           <td>
             <v-text-field v-model="id" type="number" label="Search ID"></v-text-field>
           </td>
           <td>
-            <v-text-field v-model="search" label="Search Type" 
-              :search="type"
-              :custom-filter="filterOnlyCapsText" ></v-text-field>
+            <v-combobox
+              v-model="searchType"
+              :items="types"
+              label="Search Type"
+            ></v-combobox>
           </td>
           <td>
-            <v-text-field v-model="search" label="Search Email" 
-              :search="email"
-              :custom-filter="filterOnlyCapsText" ></v-text-field>
+            <v-text-field v-model="searchEmail" label="Search Email"></v-text-field>
           </td>
-          <td colspan="6"></td>
+          <td>
+            <v-combobox
+              v-model="searchTypePayment"
+              :items="typesPayment"
+              label="Search Type of Payment"
+            ></v-combobox>
+          </td>
+          <td>
+            <v-text-field v-model="searchCategory" label="Search Category"></v-text-field>
+          </td>
+          <td colspan="4"></td>
         </tr>
     </template>
     <template v-slot:item.details="{ item }">
@@ -76,6 +125,7 @@
       </v-icon>
     </template>
   </v-data-table>
+</div>
 </template>
 
 <script>
@@ -84,11 +134,22 @@
       return {
         dialog: false,
         id: '',
-        type: '',
-        email: '',
-        search: '',
+        searchType: '',
+        searchEmail: '',
+        searchTypePayment: '',
+        searchCategory: '',
+        dateEnd: '',
+        dateStart: '',
         headers: [
-            { text: 'Date', value: 'date' },
+            { 
+              text: 'Date', 
+              value: 'date',
+              filter: value => {
+                if(!this.dateStart || !this.dateEnd) return true
+
+                return Date.parse(value) > Date.parse(this.dateStart) && Date.parse(value) < Date.parse(this.dateEnd)
+              } 
+            },
             { 
               text: 'ID', 
               value: 'id' ,
@@ -97,27 +158,78 @@
 
                 return value == parseInt(this.id)
               },
+              sortable: false
             },
-            { text: 'Type', value: 'type' },
-            { text: 'Transfer Email', value: 'transfer_email' },
-            { text: 'Type of payment', value: 'type_payment' },
-            { text: 'Category', value: 'category' },
-            { text: 'Start Balance', value: 'start_balance' },
-            { text: 'End Balance', value: 'end_balance' },
-            { text: 'Value', value: 'value' },
+            { 
+              text: 'Type', 
+              value: 'type', 
+              sortable: false,
+              filter: value => {
+                if(!this.searchType) return true
+
+                return value == this.searchType
+              }
+            },
+            { 
+              text: 'Transfer Email', 
+              value: 'transfer_email', 
+              sortable: false,
+              filter: value => {
+                if(!this.searchEmail) return true
+
+                return value.toString().includes(this.searchEmail, 0)
+              }
+            },
+            { 
+              text: 'Type of payment', 
+              value: 'type_payment', 
+              sortable: false,
+              filter: value => {
+                if(!this.searchTypePayment) return true
+
+                return value == this.searchTypePayment
+              } 
+            },
+            { 
+              text: 'Category', 
+              value: 'category', 
+              sortable: false,
+              filter: value => {
+                if(!this.searchCategory) return true
+
+                return value.toString().includes(this.searchCategory, 0)
+              }
+            },
+            { text: 'Start Balance', value: 'start_balance', sortable: false },
+            { text: 'End Balance', value: 'end_balance', sortable: false },
+            { text: 'Value', value: 'value', sortable: false},
             { text: '', value: 'details', sortable: false}
         ],
         movements: [],
         movement: '',
         isTransfer: false,
+        types: [
+          '',
+          'Income',
+          'Expense'
+        ],
+        typesPayment: [
+          '',
+          '-',
+          'MB',
+          'Cash',
+          'Bank Transfer',
+        ],
+        menu1: false,
+        menu2: false,
       }
     },
     methods: {
         getWallet: function(){
 				axios.get('api/users/me')
 					.then(response => {
-                        this.wallet = response.data.data;
-                        this.getMovements();
+              this.wallet = response.data.data;
+              this.getMovements();
 					})
 		    },
         getMovements: function(){
@@ -141,13 +253,6 @@
           this.dialog = false;
           this.isTransfer = false;
         },
-
-        filterOnlyCapsText (value, search, item) {
-          return value != null &&
-          search  != null &&
-          typeof value === 'string' &&
-          value.toString().indexOf(search) !== -1
-      },
     },
     watch: {
       dialog (val) {

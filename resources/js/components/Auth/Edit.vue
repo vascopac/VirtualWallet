@@ -19,6 +19,7 @@
     <v-file-input
         accept="image/png, image/jpeg, image/bmp"
         type="file"
+        :placeholder="user.photo"
         prepend-icon="mdi-camera"
         v-on:change="onPhotoChange"
         label="Avatar"

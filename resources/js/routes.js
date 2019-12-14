@@ -5,6 +5,7 @@ import LogoutComponent from "./components/Auth/Logout";
 import EditComponent from "./components/Auth/Edit";
 import PasswordComponent from "./components/Auth/Password";
 import MovementList from "./components/Movements/MovementList";
+import UsersListComponent from "./components/Users/UsersList";
 
 
 
@@ -46,6 +47,11 @@ const routes = [
         path: '/logout',
         component: LogoutComponent,
         name: 'logout'
+    },
+    {
+        path: '/users',
+        component: UsersListComponent,
+        name: 'users'
     },
 
 ];
