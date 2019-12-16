@@ -21,20 +21,31 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('wallets', 'WalletControllerAPI@index');
 Route::post('login', 'LoginControllerAPI@login');
 Route::post('register', 'UserControllerAPI@store');
-Route::middleware('auth:api')->post('logout',
-    'LoginControllerAPI@logout');
-Route::middleware('auth:api')->put('users/{id}',
-    'UserControllerAPI@update');
-Route::middleware('auth:api')->post('photo', 
-    'UserControllerAPI@updatePhoto');
-Route::middleware('auth:api')->get('users/me', 
-    'UserControllerAPI@show');
-Route::middleware('auth:api')->get('movements/{id}', 
-    'MovementControllerAPI@index');
-Route::middleware('auth:api')->patch('user/{id}/edit/password',
-    'UserControllerAPI@editPassword');
-Route::middleware('auth:api')->get('users',
-    'UserControllerAPI@index');
+Route::middleware('auth:api')->group(function (){
+    Route::post('logout',
+        'LoginControllerAPI@logout');
+    Route::put('users/{id}',
+        'UserControllerAPI@update');
+    Route::post('photo', 
+        'UserControllerAPI@updatePhoto');
+    Route::get('users/me', 
+        'UserControllerAPI@show');
+    Route::get('movements/{id}', 
+        'MovementControllerAPI@index');
+    Route::patch('user/{id}/edit/password',
+        'UserControllerAPI@editPassword');
+    Route::get('users',
+        'UserControllerAPI@index')->middleware('isAdmin');
+    Route::get('categories',
+        'CategoryControllerAPI@index');
+});
+
+
+
+
+
+
+
 
 
 

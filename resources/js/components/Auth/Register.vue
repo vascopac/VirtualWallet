@@ -13,6 +13,7 @@
     <v-text-field
       v-model="email"
       label="E-mail"
+      type="email"
       required
     ></v-text-field>
     <v-text-field

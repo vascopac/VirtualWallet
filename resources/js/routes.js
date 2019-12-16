@@ -6,6 +6,7 @@ import EditComponent from "./components/Auth/Edit";
 import PasswordComponent from "./components/Auth/Password";
 import MovementList from "./components/Movements/MovementList";
 import UsersListComponent from "./components/Users/UsersList";
+import MovementAddComponent from "./components/Movements/MovementAdd";
 
 
 
@@ -52,6 +53,11 @@ const routes = [
         path: '/users',
         component: UsersListComponent,
         name: 'users'
+    },
+    {
+        path: '/movementAdd',
+        component: MovementAddComponent,
+        name: 'movementAdd'
     },
 
 ];

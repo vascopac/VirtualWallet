@@ -10,6 +10,7 @@
       <v-toolbar flat color="white">
         <v-toolbar-title>Movements</v-toolbar-title>
         <v-spacer></v-spacer>
+        <v-btn color="white" class="mb-2"><router-link :to="{ name: 'movementAdd' }">New Movement</router-link></v-btn>
         <v-dialog v-model="dialog">
           <v-card>
             <v-card-title>

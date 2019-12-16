@@ -53,7 +53,7 @@ export default {
             user: '',
             passwordRules: [
                 value => !!value || 'Required.',
-                value => value.lenght >= 3 || 'Min 3 characters',
+                value => value.length >= 3 || 'Min 3 characters'
             ],
         }
     },
