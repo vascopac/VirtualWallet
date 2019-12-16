@@ -2337,6 +2337,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2377,7 +2385,9 @@ __webpack_require__.r(__webpack_exports__);
         }
       },
       mb_entity_code: '',
-      mb_payment_reference: ''
+      mb_payment_reference: '',
+      email: '',
+      source_description: ''
     };
   },
   methods: {
@@ -21598,7 +21608,31 @@ var render = function() {
           ]
         : _vm._e(),
       _vm._v(" "),
-      _vm.typeOfMovement.value == "1" ? void 0 : _vm._e(),
+      _vm.typeOfMovement.value == "1"
+        ? [
+            _c("v-text-field", {
+              attrs: { label: "E-mail", required: "" },
+              model: {
+                value: _vm.email,
+                callback: function($$v) {
+                  _vm.email = $$v
+                },
+                expression: "email"
+              }
+            }),
+            _vm._v(" "),
+            _c("v-text-field", {
+              attrs: { label: "Source Description" },
+              model: {
+                value: _vm.source_description,
+                callback: function($$v) {
+                  _vm.source_description = $$v
+                },
+                expression: "source_description"
+              }
+            })
+          ]
+        : _vm._e(),
       _vm._v(" "),
       _c("v-btn", { staticClass: "mr-4", attrs: { color: "success" } }, [
         _vm._v("\n    Add\n  ")

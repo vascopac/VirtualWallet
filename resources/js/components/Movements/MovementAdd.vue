@@ -58,7 +58,15 @@
         </template>
     </template>
     <template v-if="typeOfMovement.value == '1'">
-        
+        <v-text-field
+            v-model="email"
+            label="E-mail"
+            required
+        ></v-text-field>
+        <v-text-field
+            v-model="source_description"
+            label="Source Description"
+        ></v-text-field>
     </template>
     <v-btn
       color="success"
@@ -103,6 +111,8 @@ export default {
             },
             mb_entity_code: '',
             mb_payment_reference: '',
+            email: '',
+            source_description: '',
         }
     },
     methods: {
