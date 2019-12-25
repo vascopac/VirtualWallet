@@ -51,7 +51,7 @@
 		},
 	    methods: {
 	      saveUser: function(){
-				  this.$store.dispatch('edit', {
+				  this.$store.dispatch('editUser', {
             photo: this.photo,
             user: this.user,
 				  })

@@ -118,7 +118,7 @@ export default new Vuex.Store({
                 });
             })
         },
-        edit(context, data){
+        editUser(context, data){
             return new Promise((resolve, reject) => {
                 axios.put('api/users/' + data.user.id, data.user)
                     .then(response=>{

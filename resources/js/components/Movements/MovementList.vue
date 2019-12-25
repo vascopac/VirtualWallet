@@ -11,7 +11,7 @@
         <v-toolbar-title>Movements</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn color="white" class="mb-2"><router-link :to="{ name: 'movementAdd' }">New Movement</router-link></v-btn>
-        <v-dialog v-model="dialog">
+        <v-dialog v-model="details">
           <v-card>
             <v-card-title>
               <span class="headline">{{ "More Details" }}</span>
@@ -38,6 +38,40 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="close">Close</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-dialog v-model="edit">
+          <v-card>
+            <v-card-title>
+              <span class="headline">{{ "Edit Movement" }}</span>
+            </v-card-title>
+            <v-card-text>
+              <v-select
+                v-if="movement.type == 'Expense'"
+                v-model="movement.category_id"
+                :items="categoriesE"
+                item-text="name"
+                item-value="id"
+                label="Category"
+              ></v-select>
+              <v-select
+                v-if="movement.type == 'Income'"
+                v-model="movement.category_id"
+                :items="categoriesI"
+                item-text="name"
+                item-value="id"
+                label="Category"
+              ></v-select>
+              <v-text-field
+                v-model="movement.description"
+                label="Description"
+              ></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="save">Save</v-btn>
               <v-btn color="blue darken-1" text @click="close">Close</v-btn>
             </v-card-actions>
           </v-card>
@@ -122,7 +156,16 @@
         class="md-2"
         @click="moreDetails(item)"
       >
-        +info
+        info
+      </v-icon>
+    </template>
+    <template v-slot:item.edit="{ item }">
+      <v-icon
+        small
+        class="mr-2"
+        @click="editMovement(item)"
+      >
+        edit
       </v-icon>
     </template>
   </v-data-table>
@@ -133,7 +176,8 @@
   export default {
     data () {
       return {
-        dialog: false,
+        details: false,
+        edit: false,
         id: '',
         searchType: '',
         searchEmail: '',
@@ -141,8 +185,14 @@
         searchCategory: '',
         dateEnd: '',
         dateStart: '',
+        editedIndex: -1,
         headers: [
-            { 
+          {
+            text: 'Edit',
+            value: 'edit',
+            sortable: false,
+          },
+          { 
               text: 'Date', 
               value: 'date',
               filter: value => {
@@ -223,45 +273,81 @@
         ],
         menu1: false,
         menu2: false,
+        categoriesE: [],
+        categoriesI: [],
+        editedMovement: '',
       }
     },
     methods: {
         getWallet: function(){
-				axios.get('api/users/me')
-					.then(response => {
+          axios.get('api/users/me')
+            .then(response => {
               this.wallet = response.data.data;
               this.getMovements();
-					})
+            })
 		    },
         getMovements: function(){
-            axios.get('api/movements/' + this.wallet.id)
-                .then(response =>{
-                    this.movements = response.data.data;
-                })
-                .catch(error =>{
-                    console.log(error);
-                })
+          axios.get('api/movements/' + this.wallet.id)
+            .then(response =>{
+              this.movements = response.data.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
         },
         moreDetails: function(item){
           this.movement = Object.assign({}, item);
-          this.dialog = true;
+          this.details = true;
           if(this.movement.transfer == 1){
             this.isTransfer = true;
           }
-          console.log(item);
         },
         close(){
-          this.dialog = false;
+          this.details = false;
           this.isTransfer = false;
+          this.edit = false;
         },
+        editMovement: function(item) {
+          this.editedIndex = this.movements.indexOf(item)
+          this.movement = Object.assign({}, item)
+          this.edit = true
+          console.log(this.movement);
+        },
+        getCategories(){
+            axios.get('/api/categories')
+            .then(response => {
+                var cats = response.data.data;
+                cats.forEach(element => {
+                    if(element.type === 'e'){
+                      this.categoriesE.push(element);
+                    } else {
+                      this.categoriesI.push(element);
+                    }
+                });
+            })
+        },
+        save(){
+          Object.assign(this.movements[this.editedIndex], this.movement)
+          axios.put('api/movements/' + this.movement.id, this.movement)
+            .then(response => {
+              console.log(response);
+              this.getMovements();
+              this.edit = false; 
+            })
+          
+        }
     },
     watch: {
-      dialog (val) {
+      details (val) {
+        val || this.close()
+      },
+      editMovement (val) {
         val || this.close()
       },
     },
     created() {
         this.getWallet();
+        this.getCategories();
     },
   }
 </script>

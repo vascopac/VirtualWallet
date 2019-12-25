@@ -16,27 +16,27 @@
       v-model="description"
       label="Description"
     ></v-text-field>
-    <v-combobox
+    <v-select
           v-model="category"
           :items="categories"
           item-text="name"
           item-value="id"
           label="Select the category of expense"
           required
-    ></v-combobox>
-    <v-combobox
+    ></v-select>
+    <v-select
           v-model="typeOfMovement"
           :items="typesMovement"
           label="Select the movement type"
           required
-    ></v-combobox>
+    ></v-select>
     <template v-if="typeOfMovement.value == '0'">
-        <v-combobox
+        <v-select
           v-model="typeOfPayment"
           :items="typesPayment"
           label="Select the payment type"
           required
-        ></v-combobox>
+        ></v-select>
         <v-text-field 
             v-model="iban"
             label="IBAN"
@@ -71,6 +71,7 @@
     <v-btn
       color="success"
       class="mr-4"
+      @click="add"
     >
       Add
     </v-btn>
@@ -113,6 +114,7 @@ export default {
             mb_payment_reference: '',
             email: '',
             source_description: '',
+            user: JSON.parse('[' + sessionStorage.getItem("user") + ']'),
         }
     },
     methods: {
@@ -126,7 +128,24 @@ export default {
                     }
                 });
             })
+        },
+        add(){
+            if(this.typeOfMovement.text == 'Transfer'){
+                
+                /*axios.post('', {
+                    wallet_id: this.user[0].id,
+                    type: 'e',
+                    value: this.value,
+                    description: this.description,
+                    category_id: this.category.id,
+                    transfer: this.typesMovement.id,
+
+                })*/
+            } else if (this.typeOfMovement.text == 'Payment to external entity'){
+                console.log('2');
+            }
         }
+        
     },
     created() {
         this.getCategories();

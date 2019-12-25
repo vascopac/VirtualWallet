@@ -24,6 +24,7 @@ class Movement extends JsonResource
             'end_balance' => $this->end_balance,
             'value' => $this->value,
             'transfer_email' => $this->transfer == 1 ? $this->transferWallet->email : '-',
+            'category_id' => $this->category_id != null ? $this->category_id : '-',
             'category' => $this->category_id != null ? $this->category->name : '-',
             'description' => $this->description,
             'source_description' => $this->source_description,
