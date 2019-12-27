@@ -11,6 +11,23 @@
         <v-spacer></v-spacer>
       </v-toolbar>
     </template>
+    <template v-slot:item.wallet="{ item }">
+      <div
+      v-if="!item.wallet"
+      >
+        {{ '-' }}
+      </div>
+      <div
+      v-if="item.wallet == '0'"
+      >
+        {{ 'Empty' }}
+      </div>
+      <div
+      v-if="item.wallet > '0'"
+      >
+        {{ 'Has money' }}
+      </div>
+    </template>
     <template v-slot:item.photo="{ item }">
       <v-img
         :src="'/storage/fotos/' + item.photo"
@@ -31,6 +48,8 @@ export default {
                 { text: 'Name', value: 'name'},
                 { text: 'E-mail', value: 'email'},
                 { text: 'Type', value: 'type'},
+                { text: 'Account Status', value: 'active'},
+                { text: 'Wallet Balance', value: 'wallet'},
                 { text: 'Photo', value: 'photo'},
             ],
         }

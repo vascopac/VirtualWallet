@@ -2919,6 +2919,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2932,6 +2949,12 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         text: 'Type',
         value: 'type'
+      }, {
+        text: 'Account Status',
+        value: 'active'
+      }, {
+        text: 'Wallet Balance',
+        value: 'wallet'
       }, {
         text: 'Photo',
         value: 'photo'
@@ -22718,6 +22741,25 @@ var render = function() {
           ]
         },
         proxy: true
+      },
+      {
+        key: "item.wallet",
+        fn: function(ref) {
+          var item = ref.item
+          return [
+            !item.wallet
+              ? _c("div", [_vm._v("\n      " + _vm._s("-") + "\n    ")])
+              : _vm._e(),
+            _vm._v(" "),
+            item.wallet == "0"
+              ? _c("div", [_vm._v("\n      " + _vm._s("Empty") + "\n    ")])
+              : _vm._e(),
+            _vm._v(" "),
+            item.wallet > "0"
+              ? _c("div", [_vm._v("\n      " + _vm._s("Has money") + "\n    ")])
+              : _vm._e()
+          ]
+        }
       },
       {
         key: "item.photo",
