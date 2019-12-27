@@ -108,6 +108,7 @@ export default new Vuex.Store({
                 formData.append('password', data.password);
                 formData.append('nif', data.nif);
                 formData.append('photo', data.photo);
+                formData.append('type', data.type);
 
                 axios.post('/api/register', formData, config)
                 .then(function (response) {
@@ -152,6 +153,27 @@ export default new Vuex.Store({
                 })
 
             })
-        }
+        },
+        addUser(context, data){
+            return new Promise((resolve, reject) => {
+                const config = {
+                    headers: { 'content-type': 'multipart/form-data' }
+                }
+                let formData = new FormData();
+                formData.append('name', data.name);
+                formData.append('email', data.email);
+                formData.append('password', data.password);
+                formData.append('photo', data.photo);
+                formData.append('type', data.type);
+
+                axios.post('/api/addUser', formData, config)
+                .then(function (response) {
+                    resolve(response);
+                })
+                .catch(function (error) {
+                    reject(error);
+                });
+            })
+        },
     }
 });

@@ -104,4 +104,25 @@ class UserControllerAPI extends Controller
         }
         return response()->json($totalEmail == 0);
     }
+
+    public function add(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:3'],
+            'photo' => ['required', 'image', 'mimes:jpeg,png,jpg'],
+            'type' => ['required', 'string'],
+        ]);
+        $user = new User();
+        $user->fill($request->all());
+        $user->password = Hash::make($request->password);
+        if($request->photo != null){
+            $imageName = time().'.'.$request->photo->getClientOriginalExtension();
+            Storage::disk('public')->putFileAs('fotos', $request->photo, $imageName);
+            $user->photo = $imageName;
+        };
+        $user->save();
+        return new UserResource($user);
+    }
 }

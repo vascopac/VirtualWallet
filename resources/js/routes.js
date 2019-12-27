@@ -7,6 +7,7 @@ import PasswordComponent from "./components/Auth/Password";
 import MovementList from "./components/Movements/MovementList";
 import UsersListComponent from "./components/Users/UsersList";
 import MovementAddComponent from "./components/Movements/MovementAdd";
+import UserAddComponent from "./components/Users/UserAdd"
 
 
 
@@ -59,6 +60,11 @@ const routes = [
         component: MovementAddComponent,
         name: 'movementAdd'
     },
+    {
+        path: '/useradd',
+        component: UserAddComponent,
+        name: 'userAdd'
+    }
 
 ];
 
