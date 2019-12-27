@@ -1,81 +1,81 @@
 <template>
-  <v-form
+    <v-form
     ref="form"
     class="jumbotron"
     lazy-validation
-  >
-  <h2>Add Movement</h2>
-    <v-text-field
-      v-model="value"
-      type="number"
-      label="Value"
-      :rules="valueRules"
-      required
-    ></v-text-field>
-    <v-text-field
-      v-model="description"
-      label="Description"
-    ></v-text-field>
-    <v-select
-          v-model="category"
-          :items="categories"
-          item-text="name"
-          item-value="id"
-          label="Select the category of expense"
-          required
-    ></v-select>
-    <v-select
-          v-model="typeOfMovement"
-          :items="typesMovement"
-          label="Select the movement type"
-          required
-    ></v-select>
-    <template v-if="typeOfMovement.value == '0'">
-        <v-select
-          v-model="typeOfPayment"
-          :items="typesPayment"
-          label="Select the payment type"
-          required
-        ></v-select>
-        <v-text-field 
-            v-model="iban"
-            label="IBAN"
-            v-if="typeOfPayment.value == 'bt'"
-            :rules="ibanRules"
+    >
+    <h2>Add Movement</h2>
+        <v-text-field
+            v-model="value"
+            type="number"
+            label="Value"
+            :rules="valueRules"
             required
         ></v-text-field>
-        <template v-if="typeOfPayment.value == 'mb'">
+        <v-text-field
+            v-model="description"
+            label="Description"
+        ></v-text-field>
+        <v-select
+            v-model="category"
+            :items="categories"
+            item-text="name"
+            item-value="id"
+            label="Select the category of expense"
+            required
+        ></v-select>
+        <v-select
+            v-model="typeOfMovement"
+            :items="typesMovement"
+            label="Select the movement type"
+            required
+        ></v-select>
+        <template v-if="typeOfMovement.value == '0'">
+            <v-select
+            v-model="typeOfPayment"
+            :items="typesPayment"
+            label="Select the payment type"
+            required
+            ></v-select>
+            <v-text-field 
+                v-model="iban"
+                label="IBAN"
+                v-if="typeOfPayment.value == 'bt'"
+                :rules="ibanRules"
+                required
+            ></v-text-field>
+            <template v-if="typeOfPayment.value == 'mb'">
+                <v-text-field
+                    v-model="mb_entity_code"
+                    :rules="[mbRules.entityCode]"
+                    label="MB Entity Code"
+                ></v-text-field>
+                <v-text-field
+                    v-model="mb_payment_reference"
+                    :rules="[mbRules.paymentReference]"
+                    label="MB Payment Reference"
+                ></v-text-field>
+            </template>
+        </template>
+        <template v-if="typeOfMovement.value == '1'">
             <v-text-field
-                v-model="mb_entity_code"
-                :rules="[mbRules.entityCode]"
-                label="MB Entity Code"
+                v-model="email"
+                label="E-mail"
+                required
             ></v-text-field>
             <v-text-field
-                v-model="mb_payment_reference"
-                :rules="[mbRules.paymentReference]"
-                label="MB Payment Reference"
+                v-model="source_description"
+                label="Source Description"
             ></v-text-field>
         </template>
-    </template>
-    <template v-if="typeOfMovement.value == '1'">
-        <v-text-field
-            v-model="email"
-            label="E-mail"
-            required
-        ></v-text-field>
-        <v-text-field
-            v-model="source_description"
-            label="Source Description"
-        ></v-text-field>
-    </template>
-    <v-btn
-      color="success"
-      class="mr-4"
-      @click="add"
-    >
-      Add
-    </v-btn>
-  </v-form>
+        <v-btn
+            color="success"
+            class="mr-4"
+            @click="add"
+        >
+            Add
+        </v-btn>
+    </v-form>
 </template>
 
 <script>

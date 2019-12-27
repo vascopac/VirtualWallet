@@ -166,7 +166,7 @@ export default new Vuex.Store({
                 formData.append('photo', data.photo);
                 formData.append('type', data.type);
 
-                axios.post('/api/addUser', formData, config)
+                axios.post('/api/users/add', formData, config)
                 .then(function (response) {
                     resolve(response);
                 })

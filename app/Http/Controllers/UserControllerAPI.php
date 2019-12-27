@@ -105,6 +105,20 @@ class UserControllerAPI extends Controller
         return response()->json($totalEmail == 0);
     }
 
+    public function deactivate(Request $request)
+    {
+        $user = User::findOrFail($request->id);
+        $user->active = 0;
+        $user->save();
+    }
+
+    public function reactivate(Request $request)
+    {
+        $user = User::findOrFail($request->id);
+        $user->active = 1;
+        $user->save();
+    }
+
     public function add(Request $request)
     {
         $request->validate([

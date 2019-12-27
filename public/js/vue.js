@@ -2990,6 +2990,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     var _this = this;
@@ -3001,14 +3024,14 @@ __webpack_require__.r(__webpack_exports__);
         value: 'name',
         filter: function filter(value) {
           if (!_this.name) return true;
-          return value.toString().includes(_this.name, 0);
+          return value.toString().toLowerCase().includes(_this.name, 0);
         }
       }, {
         text: 'E-mail',
         value: 'email',
         filter: function filter(value) {
           if (!_this.email) return true;
-          return value.toString().includes(_this.email, 0);
+          return value.toString().toLowerCase().includes(_this.email, 0);
         }
       }, {
         text: 'Type',
@@ -3033,13 +3056,17 @@ __webpack_require__.r(__webpack_exports__);
       }, {
         text: 'Photo',
         value: 'photo'
+      }, {
+        text: 'Actions',
+        value: 'actions'
       }],
       name: '',
       email: '',
       type: '',
       status: '',
       types: ['', 'Admin', 'Operator', 'User'],
-      active: ['', 'Active', 'Inactive']
+      active: ['', 'Active', 'Inactive'],
+      user: JSON.parse('[' + sessionStorage.getItem("user") + ']')
     };
   },
   methods: {
@@ -3049,6 +3076,38 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('api/users').then(function (response) {
         console.log(response);
         _this2.users = response.data.data;
+      });
+    },
+    remove: function remove(id) {
+      var _this3 = this;
+
+      axios["delete"]('/api/users/' + id).then(function (response) {
+        _this3.getUsers();
+
+        console.log('deleted!');
+      });
+    },
+    deactivate: function deactivate(user) {
+      var _this4 = this;
+
+      if (user.wallet == '0.00') {
+        axios.patch('api/users/deactivate', user).then(function (response) {
+          _this4.getUsers();
+
+          console.log('deactivated');
+        });
+      } else {
+        console.log('Wallet balance must be 0');
+        console.log(user.wallet);
+      }
+    },
+    reactivate: function reactivate(user) {
+      var _this5 = this;
+
+      axios.patch('api/users/reactivate', user).then(function (response) {
+        _this5.getUsers();
+
+        console.log('reactivated');
       });
     }
   },
@@ -22070,7 +22129,7 @@ var render = function() {
           attrs: { color: "success" },
           on: { click: _vm.add }
         },
-        [_vm._v("\n    Add\n  ")]
+        [_vm._v("\n        Add\n    ")]
       )
     ],
     2
@@ -22902,7 +22961,7 @@ var render = function() {
                 "td",
                 [
                   _c("v-text-field", {
-                    attrs: { label: "Search Name" },
+                    attrs: { label: "Search Name (Lower Case)" },
                     model: {
                       value: _vm.name,
                       callback: function($$v) {
@@ -22919,7 +22978,7 @@ var render = function() {
                 "td",
                 [
                   _c("v-text-field", {
-                    attrs: { label: "Search Email" },
+                    attrs: { label: "Search Email (Lower Case)" },
                     model: {
                       value: _vm.email,
                       callback: function($$v) {
@@ -22971,6 +23030,61 @@ var render = function() {
           ]
         },
         proxy: true
+      },
+      {
+        key: "item.actions",
+        fn: function(ref) {
+          var item = ref.item
+          return [
+            item.type != "u" && item.email != _vm.user[0].email
+              ? _c(
+                  "v-btn",
+                  {
+                    staticClass: "mr-4",
+                    attrs: { small: "", color: "error" },
+                    on: {
+                      click: function($event) {
+                        return _vm.remove(item.id)
+                      }
+                    }
+                  },
+                  [_vm._v("Delete")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            item.type == "u" && item.active == "1"
+              ? _c(
+                  "v-btn",
+                  {
+                    staticClass: "mr-4",
+                    attrs: { small: "", color: "error" },
+                    on: {
+                      click: function($event) {
+                        return _vm.deactivate(item)
+                      }
+                    }
+                  },
+                  [_vm._v("Deactivate")]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            item.type == "u" && item.active == "0"
+              ? _c(
+                  "v-btn",
+                  {
+                    staticClass: "mr-4",
+                    attrs: { small: "", color: "success" },
+                    on: {
+                      click: function($event) {
+                        return _vm.reactivate(item)
+                      }
+                    }
+                  },
+                  [_vm._v("Reactivate")]
+                )
+              : _vm._e()
+          ]
+        }
       }
     ])
   })
@@ -78055,7 +78169,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         formData.append('password', data.password);
         formData.append('photo', data.photo);
         formData.append('type', data.type);
-        axios.post('/api/addUser', formData, config).then(function (response) {
+        axios.post('/api/users/add', formData, config).then(function (response) {
           resolve(response);
         })["catch"](function (error) {
           reject(error);

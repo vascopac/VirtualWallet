@@ -68,10 +68,10 @@
     <template v-slot:body.append>
         <tr>
           <td>
-            <v-text-field v-model="name" label="Search Name"></v-text-field>
+            <v-text-field v-model="name" label="Search Name (Lower Case)"></v-text-field>
           </td>
           <td>
-            <v-text-field v-model="email" label="Search Email"></v-text-field>
+            <v-text-field v-model="email" label="Search Email (Lower Case)"></v-text-field>
           </td>
           <td>
             <v-combobox
@@ -90,6 +90,29 @@
           <td colspan="2"></td>
         </tr>
     </template>
+    <template v-slot:item.actions="{ item }">
+      <v-btn 
+        small 
+        color="error"
+        class="mr-4"
+        v-if="item.type != 'u' && item.email != user[0].email"
+        @click="remove(item.id)"
+      >Delete</v-btn>
+      <v-btn 
+        small 
+        color="error"
+        class="mr-4"
+        v-if="item.type == 'u' && item.active == '1'"
+        @click="deactivate(item)"
+      >Deactivate</v-btn>
+      <v-btn 
+        small 
+        color="success"
+        class="mr-4"
+        v-if="item.type == 'u' && item.active == '0'"
+        @click="reactivate(item)"
+      >Reactivate</v-btn>
+    </template>
   </v-data-table>
 </template>
 
@@ -105,7 +128,7 @@ export default {
                   filter: value => {
                     if(!this.name) return true
 
-                    return value.toString().includes(this.name, 0)
+                    return value.toString().toLowerCase().includes(this.name, 0)
                   }
                 },
                 { 
@@ -114,7 +137,7 @@ export default {
                   filter: value => {
                     if(!this.email) return true
 
-                    return value.toString().includes(this.email, 0)
+                    return value.toString().toLowerCase().includes(this.email, 0)
                   }
                 },
                 { 
@@ -143,6 +166,7 @@ export default {
                 },
                 { text: 'Wallet Balance', value: 'wallet'},
                 { text: 'Photo', value: 'photo'},
+                { text: 'Actions', value: 'actions'}
             ],
             name: '',
             email: '',
@@ -158,7 +182,8 @@ export default {
               '',
               'Active',
               'Inactive'
-            ]
+            ],
+            user: JSON.parse('[' + sessionStorage.getItem("user") + ']'),
         }
     },
     methods: {
@@ -169,6 +194,33 @@ export default {
                 this.users = response.data.data;
             })
         },
+        remove(id){
+          axios.delete('/api/users/' + id)
+            .then(response =>{
+              this.getUsers();
+              console.log('deleted!')
+            })
+        },
+        deactivate(user) {
+          if(user.wallet == '0.00'){
+            axios.patch('api/users/deactivate', user)
+            .then(response => {
+              this.getUsers();
+              console.log('deactivated');
+            })
+          } else {
+            console.log('Wallet balance must be 0');
+            console.log(user.wallet);
+          }
+        },
+        reactivate(user) {
+          axios.patch('api/users/reactivate', user)
+            .then(response => {
+              this.getUsers();
+              console.log('reactivated');
+            })
+        }
+
     },
     created() {
         this.getUsers();

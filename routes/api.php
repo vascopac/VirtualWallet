@@ -40,25 +40,12 @@ Route::middleware('auth:api')->group(function (){
         'CategoryControllerAPI@index');
     Route::put('movements/{id}',
         'MovementControllerAPI@update');
-    Route::post('addUser',
+    Route::post('users/add',
         'UserControllerAPI@add')->middleware('isAdmin');
+    Route::delete('users/{id}',
+        'UserControllerAPI@destroy')->middleware('isAdmin');
+    Route::patch('users/deactivate',
+        'UserControllerAPI@deactivate')->middleware('isAdmin');
+    Route::patch('users/reactivate',
+        'UserControllerAPI@reactivate')->middleware('isAdmin');
 });
-
-
-
-
-
-
-
-
-
-
-//Route::get('departments', 'DepartmentControllerAPI@index');
-//Route::get('users', 'UserControllerAPI@index');
-//Route::get('users/emailavailable', 'UserControllerAPI@emailAvailable');
-//Route::get('users/{id}', 'UserControllerAPI@show');
-//Route::post('users', 'UserControllerAPI@store');
-//Route::put('users/{id}', 'UserControllerAPI@update');
-//Route::delete('users/{id}', 'UserControllerAPI@destroy');
-
-
