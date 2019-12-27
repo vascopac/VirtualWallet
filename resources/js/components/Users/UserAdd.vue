@@ -71,9 +71,9 @@
                     photo: this.photo,
                     type: this.type,
                 })
-                    .then(response => {
-                        this.$router.push({name: 'users'});
-                    })
+                .then(response => {
+                    this.$router.push({name: 'users'});
+                })
             },
 
             onPhotoChange(e){

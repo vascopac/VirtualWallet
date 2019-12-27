@@ -116,6 +116,7 @@ class UserControllerAPI extends Controller
         ]);
         $user = new User();
         $user->fill($request->all());
+        $user->type = $request->type;
         $user->password = Hash::make($request->password);
         if($request->photo != null){
             $imageName = time().'.'.$request->photo->getClientOriginalExtension();
