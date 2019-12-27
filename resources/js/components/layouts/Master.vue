@@ -15,7 +15,7 @@
                 v-if="!loggedIn"
                 text
                 ><router-link :to="{ name: 'register' }">Register</router-link></v-btn>
-                <v-menu offset-y v-if="loggedIn">
+                <v-menu offset-y v-if="loggedIn && !isAdmin">
                     <template v-slot:activator="{ on }">
                         <v-btn
                         v-on="on"

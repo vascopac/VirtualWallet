@@ -22,7 +22,7 @@ class User extends Resource
             'photo' => $this->photo,
             'type' => $this->type,
             'wallet' => $this->type != 'u' ? '' : $this->wallet->balance,
-            'active' => $this->active == '1' ? 'Active' : 'Inactive',
+            'active' => $this->active,
         ];
     }
 }

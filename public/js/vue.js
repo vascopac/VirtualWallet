@@ -2936,38 +2936,119 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
+    var _this = this;
+
     return {
       users: [],
       headers: [{
         text: 'Name',
-        value: 'name'
+        value: 'name',
+        filter: function filter(value) {
+          if (!_this.name) return true;
+          return value.toString().includes(_this.name, 0);
+        }
       }, {
         text: 'E-mail',
-        value: 'email'
+        value: 'email',
+        filter: function filter(value) {
+          if (!_this.email) return true;
+          return value.toString().includes(_this.email, 0);
+        }
       }, {
         text: 'Type',
-        value: 'type'
+        value: 'type',
+        filter: function filter(value) {
+          if (!_this.type) return true;
+          if (_this.type == 'Admin') return value == 'a';
+          if (_this.type == 'Operator') return value == 'o';
+          if (_this.type == 'User') return value == 'u';
+        }
       }, {
         text: 'Account Status',
-        value: 'active'
+        value: 'active',
+        filter: function filter(value) {
+          if (!_this.status) return true;
+          if (_this.status == 'Active') return value == '1';
+          if (_this.status == 'Inactive') return value == '0';
+        }
       }, {
         text: 'Wallet Balance',
         value: 'wallet'
       }, {
         text: 'Photo',
         value: 'photo'
-      }]
+      }],
+      name: '',
+      email: '',
+      type: '',
+      status: '',
+      types: ['', 'Admin', 'Operator', 'User'],
+      active: ['', 'Active', 'Inactive']
     };
   },
   methods: {
     getUsers: function getUsers() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('api/users').then(function (response) {
         console.log(response);
-        _this.users = response.data.data;
+        _this2.users = response.data.data;
       });
     }
   },
@@ -22743,6 +22824,40 @@ var render = function() {
         proxy: true
       },
       {
+        key: "item.type",
+        fn: function(ref) {
+          var item = ref.item
+          return [
+            item.type == "a"
+              ? _c("div", [_vm._v("\n      " + _vm._s("Admin") + "\n    ")])
+              : _vm._e(),
+            _vm._v(" "),
+            item.type == "o"
+              ? _c("div", [_vm._v("\n      " + _vm._s("Operator") + "\n    ")])
+              : _vm._e(),
+            _vm._v(" "),
+            item.type == "u"
+              ? _c("div", [_vm._v("\n      " + _vm._s("User") + "\n    ")])
+              : _vm._e()
+          ]
+        }
+      },
+      {
+        key: "item.active",
+        fn: function(ref) {
+          var item = ref.item
+          return [
+            item.active == "1"
+              ? _c("div", [_vm._v("\n      " + _vm._s("Active") + "\n    ")])
+              : _vm._e(),
+            _vm._v(" "),
+            item.active == "0"
+              ? _c("div", [_vm._v("\n      " + _vm._s("Inactive") + "\n    ")])
+              : _vm._e()
+          ]
+        }
+      },
+      {
         key: "item.wallet",
         fn: function(ref) {
           var item = ref.item
@@ -22777,6 +22892,85 @@ var render = function() {
               : _vm._e()
           ]
         }
+      },
+      {
+        key: "body.append",
+        fn: function() {
+          return [
+            _c("tr", [
+              _c(
+                "td",
+                [
+                  _c("v-text-field", {
+                    attrs: { label: "Search Name" },
+                    model: {
+                      value: _vm.name,
+                      callback: function($$v) {
+                        _vm.name = $$v
+                      },
+                      expression: "name"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                [
+                  _c("v-text-field", {
+                    attrs: { label: "Search Email" },
+                    model: {
+                      value: _vm.email,
+                      callback: function($$v) {
+                        _vm.email = $$v
+                      },
+                      expression: "email"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                [
+                  _c("v-combobox", {
+                    attrs: { items: _vm.types, label: "Search Type" },
+                    model: {
+                      value: _vm.type,
+                      callback: function($$v) {
+                        _vm.type = $$v
+                      },
+                      expression: "type"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                [
+                  _c("v-combobox", {
+                    attrs: { items: _vm.active, label: "Search Status" },
+                    model: {
+                      value: _vm.status,
+                      callback: function($$v) {
+                        _vm.status = $$v
+                      },
+                      expression: "status"
+                    }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("td", { attrs: { colspan: "2" } })
+            ])
+          ]
+        },
+        proxy: true
       }
     ])
   })
@@ -22855,7 +23049,7 @@ var render = function() {
                     )
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.loggedIn
+                _vm.loggedIn && !_vm.isAdmin
                   ? _c(
                       "v-menu",
                       {
