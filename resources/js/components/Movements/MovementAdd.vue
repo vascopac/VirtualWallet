@@ -30,7 +30,7 @@
             label="Select the movement type"
             required
         ></v-select>
-        <template v-if="typeOfMovement.value == '0'">
+        <template v-if="typeOfMovement == '0'">
             <v-select
             v-model="typeOfPayment"
             :items="typesPayment"
@@ -40,11 +40,11 @@
             <v-text-field 
                 v-model="iban"
                 label="IBAN"
-                v-if="typeOfPayment.value == 'bt'"
+                v-if="typeOfPayment == 'bt'"
                 :rules="ibanRules"
                 required
             ></v-text-field>
-            <template v-if="typeOfPayment.value == 'mb'">
+            <template v-if="typeOfPayment == 'mb'">
                 <v-text-field
                     v-model="mb_entity_code"
                     :rules="[mbRules.entityCode]"
@@ -57,7 +57,7 @@
                 ></v-text-field>
             </template>
         </template>
-        <template v-if="typeOfMovement.value == '1'">
+        <template v-if="typeOfMovement == '1'">
             <v-text-field
                 v-model="email"
                 label="E-mail"
@@ -130,8 +130,9 @@ export default {
             })
         },
         add(){
+            console.log(this.typeOfMovement);
             if(this.typeOfMovement.text == 'Transfer'){
-                
+                console.log('1');
                 /*axios.post('', {
                     wallet_id: this.user[0].id,
                     type: 'e',

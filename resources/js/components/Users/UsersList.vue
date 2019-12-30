@@ -47,12 +47,12 @@
         {{ '-' }}
       </div>
       <div
-      v-if="item.wallet == '0'"
+      v-if="item.wallet == '0.00'"
       >
         {{ 'Empty' }}
       </div>
       <div
-      v-if="item.wallet > '0'"
+      v-if="item.wallet > '0.00'"
       >
         {{ 'Has money' }}
       </div>

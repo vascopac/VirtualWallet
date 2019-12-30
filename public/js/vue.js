@@ -2406,7 +2406,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     add: function add() {
+      console.log(this.typeOfMovement);
+
       if (this.typeOfMovement.text == 'Transfer') {
+        console.log('1');
         /*axios.post('', {
             wallet_id: this.user[0].id,
             type: 'e',
@@ -22032,7 +22035,7 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _vm.typeOfMovement.value == "0"
+      _vm.typeOfMovement == "0"
         ? [
             _c("v-select", {
               attrs: {
@@ -22049,7 +22052,7 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _vm.typeOfPayment.value == "bt"
+            _vm.typeOfPayment == "bt"
               ? _c("v-text-field", {
                   attrs: { label: "IBAN", rules: _vm.ibanRules, required: "" },
                   model: {
@@ -22062,7 +22065,7 @@ var render = function() {
                 })
               : _vm._e(),
             _vm._v(" "),
-            _vm.typeOfPayment.value == "mb"
+            _vm.typeOfPayment == "mb"
               ? [
                   _c("v-text-field", {
                     attrs: {
@@ -22096,7 +22099,7 @@ var render = function() {
           ]
         : _vm._e(),
       _vm._v(" "),
-      _vm.typeOfMovement.value == "1"
+      _vm.typeOfMovement == "1"
         ? [
             _c("v-text-field", {
               attrs: { label: "E-mail", required: "" },
@@ -22925,11 +22928,11 @@ var render = function() {
               ? _c("div", [_vm._v("\n      " + _vm._s("-") + "\n    ")])
               : _vm._e(),
             _vm._v(" "),
-            item.wallet == "0"
+            item.wallet == "0.00"
               ? _c("div", [_vm._v("\n      " + _vm._s("Empty") + "\n    ")])
               : _vm._e(),
             _vm._v(" "),
-            item.wallet > "0"
+            item.wallet > "0.00"
               ? _c("div", [_vm._v("\n      " + _vm._s("Has money") + "\n    ")])
               : _vm._e()
           ]
