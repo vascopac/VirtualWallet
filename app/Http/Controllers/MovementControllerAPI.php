@@ -53,7 +53,7 @@ class MovementControllerAPI extends Controller
             $pair->transfer = 1;
             $pair->transfer_movement_id = $movement->id;
             $pair->transfer_wallet_id = $movement->wallet_id;
-            $pair->category_id = $movement->category_id;
+            $pair->category_id = null;
             $pair->source_description = $request->source_description;
             $pair->date = $movement->date;
             $pair->start_balance = $walletPair->balance;
