@@ -1881,6 +1881,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2252,6 +2253,135 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.wallets();
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Movements/IncomeAdd.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Movements/IncomeAdd.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      value: '',
+      valueRules: {
+        valueRange: function valueRange(value) {
+          return parseFloat(value) >= 0.01 && parseFloat(value) <= 5000 || "Value must be bigger then 0,01€ and lower than 5000€";
+        }
+      },
+      iban: '',
+      typeOfPayment: '',
+      typesPayment: [{
+        text: 'Bank Transfer',
+        value: 'bt'
+      }, {
+        text: 'Cash',
+        value: 'c'
+      }],
+      ibanRules: [function (value) {
+        if (value.match(/^[A-Z]{2}[0-9]{23}$/)) return true;
+        return 'IBAN must have 2 capital letters followed by 23 numbers!';
+      }],
+      email: '',
+      source_description: '',
+      user: JSON.parse('[' + sessionStorage.getItem("user") + ']')
+    };
+  },
+  methods: {
+    add: function add() {
+      var _this = this;
+
+      axios.post('api/wallet/email', {
+        email: this.email
+      }).then(function (response) {
+        console.log(response.data);
+        var end = +response.data.balance + +_this.value;
+
+        if (_this.typeOfPayment == 'bt') {
+          axios.post('api/movements/income', {
+            wallet_id: response.data.id,
+            type: 'i',
+            value: _this.value,
+            type_payment: _this.typeOfPayment,
+            source_description: _this.source_description,
+            iban: _this.iban,
+            start_balance: response.data.balance,
+            end_balance: end,
+            transfer: 0
+          }).then(function (response) {
+            console.log('adicionado');
+          });
+        } else {
+          axios.post('api/movements/income', {
+            wallet_id: response.data.id,
+            type: 'i',
+            value: _this.value,
+            type_payment: _this.typeOfPayment,
+            start_balance: response.data.balance,
+            end_balance: end,
+            transfer: 0
+          }).then(function (response) {
+            console.log('adicionado');
+          });
+        }
+      })["catch"](function (error) {
+        console.log('error');
+      });
+    }
   }
 });
 
@@ -3233,6 +3363,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: {
     loggedIn: function loggedIn() {
@@ -3240,6 +3371,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     isAdmin: function isAdmin() {
       return this.$store.getters.isAdmin;
+    },
+    isOperator: function isOperator() {
+      return this.$store.getters.isOperator;
     }
   }
 });
@@ -21620,16 +21754,18 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("v-text-field", {
-        attrs: { label: "NIF", type: "number", required: "" },
-        model: {
-          value: _vm.user.nif,
-          callback: function($$v) {
-            _vm.$set(_vm.user, "nif", $$v)
-          },
-          expression: "user.nif"
-        }
-      }),
+      _vm.user.type == "u"
+        ? _c("v-text-field", {
+            attrs: { label: "NIF", type: "number", required: "" },
+            model: {
+              value: _vm.user.nif,
+              callback: function($$v) {
+                _vm.$set(_vm.user, "nif", $$v)
+              },
+              expression: "user.nif"
+            }
+          })
+        : _vm._e(),
       _vm._v(" "),
       _c("v-file-input", {
         attrs: {
@@ -21993,6 +22129,115 @@ var render = function() {
           )
         ],
         1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Movements/IncomeAdd.vue?vue&type=template&id=540daed2&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Movements/IncomeAdd.vue?vue&type=template&id=540daed2& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-form",
+    { ref: "form", staticClass: "jumbotron", attrs: { "lazy-validation": "" } },
+    [
+      _c("h2", [_vm._v("Add Movement")]),
+      _vm._v(" "),
+      _c("v-text-field", {
+        attrs: { label: "E-mail", required: "" },
+        model: {
+          value: _vm.email,
+          callback: function($$v) {
+            _vm.email = $$v
+          },
+          expression: "email"
+        }
+      }),
+      _vm._v(" "),
+      _c("v-text-field", {
+        attrs: {
+          type: "number",
+          label: "Value",
+          rules: [_vm.valueRules.valueRange],
+          required: ""
+        },
+        model: {
+          value: _vm.value,
+          callback: function($$v) {
+            _vm.value = $$v
+          },
+          expression: "value"
+        }
+      }),
+      _vm._v(" "),
+      _c("v-select", {
+        attrs: {
+          items: _vm.typesPayment,
+          label: "Select the payment type",
+          required: ""
+        },
+        model: {
+          value: _vm.typeOfPayment,
+          callback: function($$v) {
+            _vm.typeOfPayment = $$v
+          },
+          expression: "typeOfPayment"
+        }
+      }),
+      _vm._v(" "),
+      _vm.typeOfPayment == "bt"
+        ? _c("v-text-field", {
+            attrs: { label: "Source Description" },
+            model: {
+              value: _vm.source_description,
+              callback: function($$v) {
+                _vm.source_description = $$v
+              },
+              expression: "source_description"
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.typeOfPayment == "bt"
+        ? _c("v-text-field", {
+            attrs: { label: "IBAN", rules: _vm.ibanRules, required: "" },
+            model: {
+              value: _vm.iban,
+              callback: function($$v) {
+                _vm.iban = $$v
+              },
+              expression: "iban"
+            }
+          })
+        : _vm._e(),
+      _vm._v(" "),
+      _c(
+        "v-btn",
+        {
+          staticClass: "mr-4",
+          attrs: { color: "success" },
+          on: { click: _vm.add }
+        },
+        [_vm._v("\n        Add\n    ")]
       )
     ],
     1
@@ -23246,7 +23491,22 @@ var render = function() {
                         _c(
                           "v-list",
                           [
-                            _vm.loggedIn
+                            _vm.isOperator
+                              ? _c(
+                                  "v-btn",
+                                  { attrs: { text: "" } },
+                                  [
+                                    _c(
+                                      "router-link",
+                                      { attrs: { to: { name: "incomeAdd" } } },
+                                      [_vm._v("New Income")]
+                                    )
+                                  ],
+                                  1
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            !_vm.isOperator
                               ? _c(
                                   "v-btn",
                                   { attrs: { text: "" } },
@@ -23263,7 +23523,7 @@ var render = function() {
                                 )
                               : _vm._e(),
                             _vm._v(" "),
-                            _vm.loggedIn
+                            !_vm.isOperator
                               ? _c(
                                   "v-btn",
                                   { attrs: { text: "" } },
@@ -77651,6 +77911,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Movements/IncomeAdd.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/Movements/IncomeAdd.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _IncomeAdd_vue_vue_type_template_id_540daed2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./IncomeAdd.vue?vue&type=template&id=540daed2& */ "./resources/js/components/Movements/IncomeAdd.vue?vue&type=template&id=540daed2&");
+/* harmony import */ var _IncomeAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./IncomeAdd.vue?vue&type=script&lang=js& */ "./resources/js/components/Movements/IncomeAdd.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _IncomeAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _IncomeAdd_vue_vue_type_template_id_540daed2___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _IncomeAdd_vue_vue_type_template_id_540daed2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Movements/IncomeAdd.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Movements/IncomeAdd.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/Movements/IncomeAdd.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IncomeAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./IncomeAdd.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Movements/IncomeAdd.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_IncomeAdd_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Movements/IncomeAdd.vue?vue&type=template&id=540daed2&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/Movements/IncomeAdd.vue?vue&type=template&id=540daed2& ***!
+  \****************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IncomeAdd_vue_vue_type_template_id_540daed2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./IncomeAdd.vue?vue&type=template&id=540daed2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Movements/IncomeAdd.vue?vue&type=template&id=540daed2&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IncomeAdd_vue_vue_type_template_id_540daed2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_IncomeAdd_vue_vue_type_template_id_540daed2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Movements/MovementAdd.vue":
 /*!***********************************************************!*\
   !*** ./resources/js/components/Movements/MovementAdd.vue ***!
@@ -78015,6 +78344,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Users_UsersList__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/Users/UsersList */ "./resources/js/components/Users/UsersList.vue");
 /* harmony import */ var _components_Movements_MovementAdd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Movements/MovementAdd */ "./resources/js/components/Movements/MovementAdd.vue");
 /* harmony import */ var _components_Users_UserAdd__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/Users/UserAdd */ "./resources/js/components/Users/UserAdd.vue");
+/* harmony import */ var _components_Movements_IncomeAdd__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Movements/IncomeAdd */ "./resources/js/components/Movements/IncomeAdd.vue");
+
 
 
 
@@ -78068,6 +78399,10 @@ var routes = [{
   path: '/useradd',
   component: _components_Users_UserAdd__WEBPACK_IMPORTED_MODULE_9__["default"],
   name: 'userAdd'
+}, {
+  path: '/incomeAdd',
+  component: _components_Movements_IncomeAdd__WEBPACK_IMPORTED_MODULE_10__["default"],
+  name: 'incomeAdd'
 }];
 /* harmony default export */ __webpack_exports__["default"] = (routes);
 
@@ -78098,6 +78433,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     isAdmin: function isAdmin(state) {
       return state.user.type == "a";
+    },
+    isOperator: function isOperator(state) {
+      return state.user.type == "o";
     }
   },
   mutations: {

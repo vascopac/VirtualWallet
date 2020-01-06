@@ -14,6 +14,9 @@ export default new Vuex.Store({
         isAdmin(state){
             return state.user.type == "a";
         },
+        isOperator(state){
+            return state.user.type == "o";
+        },
         
     },
     mutations: {

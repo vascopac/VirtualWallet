@@ -82,4 +82,29 @@ class MovementControllerAPI extends Controller
         return new MovementResource($movement);
     }
 
+    public function newIncome(Request $request)
+    {
+        $request->validate([
+            'wallet_id' => ['required', 'numeric'],
+            'type' => ['required', 'string', 'max:1'],
+            'type_payment' => ['nullable', 'string', 'max:2'],
+            'iban' => ['nullable', 'string', 'max:25'],
+            'source_description' => ['nullable', 'string'],
+            'start_balance' => ['required', 'numeric'],
+            'end_balance' => ['required', 'numeric'],
+            'value' => ['required', 'numeric'],
+            'transfer' => ['required', 'boolean'],
+        ]);
+        $movement = new Movement();
+        $movement->fill($request->all());
+        $movement->date = Carbon::now();
+        $movement->source_description = $request->source_description;
+        $wallet = Wallet::where('id', $request->wallet_id)->first();
+        $wallet->balance = $movement->end_balance;
+        $wallet->save();
+        $movement->save();
+
+        return new MovementResource($movement);
+    }
+
 }

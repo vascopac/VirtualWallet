@@ -12,6 +12,7 @@
     ></v-text-field>
     <v-text-field
       v-model="user.nif"
+      v-if="user.type == 'u'"
       label="NIF"
       type="number"
       required

@@ -50,6 +50,8 @@ Route::middleware('auth:api')->group(function (){
         'UserControllerAPI@reactivate')->middleware('isAdmin');
     Route::post('movements', 
         'MovementControllerAPI@store');
+    Route::post('movements/income', 
+        'MovementControllerAPI@newIncome');
     Route::post('wallet/email',
         'WalletControllerAPI@walletAssociated');
 });

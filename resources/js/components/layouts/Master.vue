@@ -24,8 +24,9 @@
                         </v-btn>
                     </template>
                     <v-list>
-                        <v-btn text v-if="loggedIn"><router-link :to="{ name: 'movementAdd' }">New Movement</router-link></v-btn>
-                        <v-btn text v-if="loggedIn"><router-link :to="{ name: 'movements' }">Movements</router-link></v-btn>
+                        <v-btn text v-if="isOperator"><router-link :to="{ name: 'incomeAdd' }">New Income</router-link></v-btn>
+                        <v-btn text v-if="!isOperator"><router-link :to="{ name: 'movementAdd' }">New Movement</router-link></v-btn>
+                        <v-btn text v-if="!isOperator"><router-link :to="{ name: 'movements' }">Movements</router-link></v-btn>
                     </v-list>
                 </v-menu>
                 <v-menu offset-y v-if="loggedIn">
@@ -59,6 +60,9 @@
             },
             isAdmin(){
                 return this.$store.getters.isAdmin;
+            },
+            isOperator(){
+                return this.$store.getters.isOperator;
             }
         }
     }
