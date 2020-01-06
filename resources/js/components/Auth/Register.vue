@@ -70,7 +70,8 @@
                     photo: this.photo,
                 })
                     .then(response => {
-                        this.$router.push({name: 'login'});
+                      this.$toasted.success('Successfull register!');
+                      this.$router.push({name: 'login'});
                     })
             },
 

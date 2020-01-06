@@ -103,7 +103,6 @@ export default new Vuex.Store({
                 const config = {
                     headers: { 'content-type': 'multipart/form-data' }
                 }
- 
                 let formData = new FormData();
                 formData.append('name', data.name);
                 formData.append('email', data.email);

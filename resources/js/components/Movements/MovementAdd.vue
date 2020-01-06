@@ -131,13 +131,11 @@ export default {
         },
         add(){
             let end = +this.user[0].wallet - +this.value;
-            //console.log(end);
             if(this.typeOfMovement == '1'){
                 axios.post('api/wallet/email', {
                     email: this.email
                 })
                 .then(response => {
-                    //console.log(response.data.id);
                     axios.post('api/movements', {
                         wallet_id: this.user[0].id,
                         type: 'e',
@@ -150,13 +148,16 @@ export default {
                         end_balance: end,
                         transfer_wallet_id: response.data.id 
                     })
+                    .then(response => {
+                        this.$router.push({name: 'movements'});
+                        this.$socket.emit('movement_created', response.data.data);
+                    })
                 })
                 .catch(error => {
-                    console.log('error')
+                    this.$toasted.error('Something went wrong!');
                 })
                 
             } else if (this.typeOfMovement == '0'){
-                //console.log(this.typeOfPayment);
                 if(this.typeOfPayment == 'bt'){
                     axios.post('api/movements', {
                         wallet_id: this.user[0].id,
@@ -171,7 +172,11 @@ export default {
                         iban: this.iban,
                     })
                     .then(response => {
-                        console.log('Movimento adicionado');
+                        this.$router.push({name: 'movements'});
+                        this.$socket.emit('movement_created', response.data.data);
+                    })
+                    .catch(error => {
+                        this.$toasted.error('Something went wrong!');
                     })
                 } else{
                     axios.post('api/movements', {
@@ -188,7 +193,11 @@ export default {
                         mb_payment_reference: this.mb_payment_reference,
                     })
                     .then(response => {
-                        console.log('Movimento adicionado');
+                        this.$router.push({name: 'movements'});
+                        this.$socket.emit('movement_created', response.data.data);
+                    })
+                    .catch(error => {
+                        this.$toasted.error('Something went wrong!');
                     })
                 }
             }
@@ -198,5 +207,10 @@ export default {
     created() {
         this.getCategories();
     },
+    sockets: {
+        connect() {
+            console.log("socket connected (socket ID =  " + this.$socket.id + ")");
+        }
+    }
 }
 </script>

@@ -59,7 +59,7 @@ export default {
     },
     methods: {
         cancelEdit: function(){
-	        this.$router.push({name: 'home'});
+          this.$router.push({name: 'home'});
         }, 
         getUserInfo(){
             axios.get('api/users/me')
@@ -72,15 +72,15 @@ export default {
                 axios.patch('api/user/' + this.user.id + '/edit/password', this.request)
                     .then(response => {
                         Object.assign(this.user, response.data.data);
-                        console.log('pass changed!');
+                        this.$toasted.success('Password successfully changed!');
                         this.$router.push({name: 'home'});
                     })
                     .catch(error => {
-                        console.log(error);
+                      this.$toasted.error('Something went wrong!');
                     })
 
             } else {
-                console.log('pass diferente');
+              this.$toasted.error('New password and confirm password doesn\'t match!');
             }
         },
     },

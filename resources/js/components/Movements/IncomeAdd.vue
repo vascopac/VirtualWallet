@@ -91,7 +91,10 @@ export default {
                             transfer: 0,
                         })
                         .then(response => {
-                            console.log('adicionado');
+                            this.$toasted.success('Movement ' + response.data.data.id + ' has been successfully added!');
+                        })
+                        .catch(error => {
+                            this.$toasted.error('Something went wrong!');
                         })
                     } else{
                         axios.post('api/movements/income', {
@@ -104,13 +107,16 @@ export default {
                             transfer: 0
                         })
                         .then(response => {
-                            console.log('adicionado');
+                            this.$toasted.success('Movement ' + response.data.data.id + ' has been successfully added!');
+                        })
+                        .catch(error => {
+                            this.$toasted.error('Something went wrong!');
                         })
                     }
                     
                 })
                 .catch(error => {
-                    console.log('error')
+                    this.$toasted.error('Account doesn\'t exist!');
                 })
                 
         }  

@@ -42,6 +42,7 @@
                     password: this.password
                 })
                     .then(response => {
+                        this.$toasted.success('You are logged in!');
                         this.$router.push({name: 'home'});
                     })
             }

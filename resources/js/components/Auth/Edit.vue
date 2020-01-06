@@ -64,13 +64,19 @@
 				this.$store.dispatch('editUser', {
             photo: this.photo,
             user: this.user,
-				})
+        })
+        .then(response => {
+          this.$toasted.success('User ' + response.data.data.name + ' has been successfully edited!');
+        })
       },
       saveAdmin: function(){
 				this.$store.dispatch('editAdmin', {
             photo: this.photo,
             user: this.user,
-				})
+        })
+        .then(response => {
+          this.$toasted.success('User ' + response.data.data.name + ' has been successfully edited!');
+        })
       },
       cancelEdit: function(){
         this.$router.push({name: 'home'});

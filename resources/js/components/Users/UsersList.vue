@@ -198,7 +198,7 @@ export default {
           axios.delete('/api/users/' + id)
             .then(response =>{
               this.getUsers();
-              console.log('deleted!')
+              this.$toasted.success('User ' + response.data.data.name + ' has been successfully deleted!');
             })
         },
         deactivate(user) {
@@ -206,18 +206,17 @@ export default {
             axios.patch('api/users/deactivate', user)
             .then(response => {
               this.getUsers();
-              console.log('deactivated');
+              this.$toasted.success('User ' + response.data.data.name + ' has been successfully deactivated!');
             })
           } else {
-            console.log('Wallet balance must be 0');
-            console.log(user.wallet);
+            this.$toasted.error('Wallet balance must be 0 to deactivate an account!');
           }
         },
         reactivate(user) {
           axios.patch('api/users/reactivate', user)
             .then(response => {
               this.getUsers();
-              console.log('reactivated');
+              this.$toasted.success('User ' + response.data.data.name + ' has been successfully deactivated!');
             })
         }
 

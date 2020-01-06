@@ -72,6 +72,7 @@
                     type: this.type,
                 })
                 .then(response => {
+                    this.$toasted.success(response.data.data.type + '' + response.data.data.name + ' has been successfully added!');
                     this.$router.push({name: 'users'});
                 })
             },

@@ -285,7 +285,7 @@
               this.wallet = response.data.data;
               this.getMovements();
             })
-		    },
+          },
         getMovements: function(){
           axios.get('api/movements/' + this.wallet.id)
             .then(response =>{
@@ -311,7 +311,6 @@
           this.editedIndex = this.movements.indexOf(item)
           this.movement = Object.assign({}, item)
           this.edit = true
-          console.log(this.movement);
         },
         getCategories(){
             axios.get('/api/categories')
@@ -333,6 +332,7 @@
               console.log(response);
               this.getMovements();
               this.edit = false; 
+              this.$toasted.success('Movement ' + this.movement.id + ' has been successfully added!');
             })
           
         }
@@ -349,5 +349,14 @@
         this.getWallet();
         this.getCategories();
     },
+    sockets: {
+      connect() {
+        console.log("socket connected (socket ID =  " + this.$socket.id + ")");
+      },
+      movement_created(movement){
+        this.getMovements();
+        this.$toasted.show('Movement with id ' + movement.id + ' added to you account!');
+      }
+    }
   }
 </script>
