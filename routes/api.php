@@ -48,4 +48,8 @@ Route::middleware('auth:api')->group(function (){
         'UserControllerAPI@deactivate')->middleware('isAdmin');
     Route::patch('users/reactivate',
         'UserControllerAPI@reactivate')->middleware('isAdmin');
+    Route::post('movements', 
+        'MovementControllerAPI@store');
+    Route::post('wallet/email',
+        'WalletControllerAPI@walletAssociated');
 });

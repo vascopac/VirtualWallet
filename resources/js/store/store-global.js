@@ -12,7 +12,6 @@ export default new Vuex.Store({
             return state.token !== "";
         },
         isAdmin(state){
-            console.log(state);
             return state.user.type == "a";
         },
         

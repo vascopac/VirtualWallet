@@ -9,7 +9,7 @@
             v-model="value"
             type="number"
             label="Value"
-            :rules="valueRules"
+            :rules="[valueRules.balance, valueRules.valueRange]"
             required
         ></v-text-field>
         <v-text-field
@@ -22,7 +22,6 @@
             item-text="name"
             item-value="id"
             label="Select the category of expense"
-            required
         ></v-select>
         <v-select
             v-model="typeOfMovement"
@@ -88,9 +87,10 @@ export default {
                 { text: 'Payment to external entity', value: '0'}
             ],
             value: '',
-            valueRules: [
-                value => parseFloat(value) >= 0.01 && parseFloat(value) <= 5000 || "Value must be bigger then 0,01€ and lower than 5000€"
-            ],
+            valueRules: {
+                valueRange: value => parseFloat(value) >= 0.01 && parseFloat(value) <= 5000 || "Value must be bigger then 0,01€ and lower than 5000€",
+                balance: value => parseFloat(value) <= parseFloat(this.user[0].wallet) || "You only have " + this.user[0].wallet + "€ in your wallet!"
+            },
             description: '',
             category: '',
             categories: [],
@@ -130,20 +130,67 @@ export default {
             })
         },
         add(){
-            console.log(this.typeOfMovement);
-            if(this.typeOfMovement.text == 'Transfer'){
-                console.log('1');
-                /*axios.post('', {
-                    wallet_id: this.user[0].id,
-                    type: 'e',
-                    value: this.value,
-                    description: this.description,
-                    category_id: this.category.id,
-                    transfer: this.typesMovement.id,
-
-                })*/
-            } else if (this.typeOfMovement.text == 'Payment to external entity'){
-                console.log('2');
+            let end = +this.user[0].wallet - +this.value;
+            //console.log(end);
+            if(this.typeOfMovement == '1'){
+                axios.post('api/wallet/email', {
+                    email: this.email
+                })
+                .then(response => {
+                    //console.log(response.data.id);
+                    axios.post('api/movements', {
+                        wallet_id: this.user[0].id,
+                        type: 'e',
+                        value: this.value,
+                        description: this.description,
+                        source_description: this.source_description,
+                        category_id: this.category,
+                        transfer: this.typeOfMovement,
+                        start_balance: this.user[0].wallet,
+                        end_balance: end,
+                        transfer_wallet_id: response.data.id 
+                    })
+                })
+                .catch(error => {
+                    console.log('error')
+                })
+                
+            } else if (this.typeOfMovement == '0'){
+                //console.log(this.typeOfPayment);
+                if(this.typeOfPayment == 'bt'){
+                    axios.post('api/movements', {
+                        wallet_id: this.user[0].id,
+                        type: 'e',
+                        value: this.value,
+                        description: this.description,
+                        category_id: this.category,
+                        transfer: this.typeOfMovement,
+                        start_balance: this.user[0].wallet,
+                        end_balance: end,
+                        type_payment: this.typeOfPayment,
+                        iban: this.iban,
+                    })
+                    .then(response => {
+                        console.log('Movimento adicionado');
+                    })
+                } else{
+                    axios.post('api/movements', {
+                        wallet_id: this.user[0].id,
+                        type: 'e',
+                        value: this.value,
+                        description: this.description,
+                        category_id: this.category,
+                        transfer: this.typeOfMovement,
+                        start_balance: this.user[0].wallet,
+                        end_balance: end,
+                        type_payment: this.typeOfPayment,
+                        mb_entity_code: this.mb_entity_code,
+                        mb_payment_reference: this.mb_payment_reference,
+                    })
+                    .then(response => {
+                        console.log('Movimento adicionado');
+                    })
+                }
             }
         }
         
