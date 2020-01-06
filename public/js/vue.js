@@ -1882,6 +1882,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -1892,6 +1901,12 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     saveUser: function saveUser() {
       this.$store.dispatch('editUser', {
+        photo: this.photo,
+        user: this.user
+      });
+    },
+    saveAdmin: function saveAdmin() {
+      this.$store.dispatch('editAdmin', {
         photo: this.photo,
         user: this.user
       });
@@ -21778,15 +21793,29 @@ var render = function() {
         on: { change: _vm.onPhotoChange }
       }),
       _vm._v(" "),
-      _c(
-        "v-btn",
-        {
-          staticClass: "mr-4",
-          attrs: { color: "success" },
-          on: { click: _vm.saveUser }
-        },
-        [_vm._v("\n      Save\n    ")]
-      ),
+      _vm.user.type == "u"
+        ? _c(
+            "v-btn",
+            {
+              staticClass: "mr-4",
+              attrs: { color: "success" },
+              on: { click: _vm.saveUser }
+            },
+            [_vm._v("\n      Save\n    ")]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.user.type == "a" || _vm.user.type == "o"
+        ? _c(
+            "v-btn",
+            {
+              staticClass: "mr-4",
+              attrs: { color: "success" },
+              on: { click: _vm.saveAdmin }
+            },
+            [_vm._v("\n      Save\n    ")]
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "v-btn",
@@ -78537,6 +78566,20 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     editUser: function editUser(context, data) {
       return new Promise(function (resolve, reject) {
         axios.put('api/users/' + data.user.id, data.user).then(function (response) {
+          if (data.photo != '') {
+            context.dispatch('uploadPhoto', data);
+          }
+
+          context.commit('setUser', response.data.data);
+          resolve(response);
+        })["catch"](function (error) {
+          reject(error);
+        });
+      });
+    },
+    editAdmin: function editAdmin(context, data) {
+      return new Promise(function (resolve, reject) {
+        axios.put('api/users/admin/' + data.user.id, data.user).then(function (response) {
           if (data.photo != '') {
             context.dispatch('uploadPhoto', data);
           }

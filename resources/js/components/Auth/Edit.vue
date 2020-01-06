@@ -28,7 +28,16 @@
     <v-btn
       color="success"
       class="mr-4"
+      v-if="user.type == 'u'"
       @click="saveUser"
+    >
+      Save
+    </v-btn>
+    <v-btn
+      color="success"
+      class="mr-4"
+      v-if="user.type == 'a' || user.type == 'o'"
+      @click="saveAdmin"
     >
       Save
     </v-btn>
@@ -50,26 +59,32 @@
 				photo: '',
 			}
 		},
-	    methods: {
-	      saveUser: function(){
-				  this.$store.dispatch('editUser', {
+    methods: {
+      saveUser: function(){
+				this.$store.dispatch('editUser', {
             photo: this.photo,
             user: this.user,
-				  })
-	      },
-	      cancelEdit: function(){
-	        this.$router.push({name: 'home'});
-		  	}, 
-			  onPhotoChange(e){
-          this.photo = e;
-          this.user.photo = this.photo.name;
-  			},
-			  getUserInfo(){
-				  axios.get('api/users/me')
+				})
+      },
+      saveAdmin: function(){
+				this.$store.dispatch('editAdmin', {
+            photo: this.photo,
+            user: this.user,
+				})
+      },
+      cancelEdit: function(){
+        this.$router.push({name: 'home'});
+      }, 
+      onPhotoChange(e){
+        this.photo = e;
+        this.user.photo = this.photo.name;
+      },
+      getUserInfo(){
+        axios.get('api/users/me')
 					.then(response => {
 						this.user = response.data.data;
 					})
-			  }
+      }
 		},
 		mounted() {
 			this.getUserInfo();

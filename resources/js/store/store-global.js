@@ -136,6 +136,21 @@ export default new Vuex.Store({
                     });
             })
         },
+        editAdmin(context, data){
+            return new Promise((resolve, reject) => {
+                axios.put('api/users/admin/' + data.user.id, data.user)
+                    .then(response=>{
+                        if(data.photo != ''){
+                            context.dispatch('uploadPhoto', data);
+                        }
+                        context.commit('setUser', response.data.data);
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            })
+        },
         uploadPhoto(content, data){
             return new Promise((resolve, reject) => {
                 const config = {

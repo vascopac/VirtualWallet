@@ -64,6 +64,16 @@ class UserControllerAPI extends Controller
         return new UserResource($user);
     }
 
+    public function updateAdmin(Request $request, $id)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+        ]);
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        return new UserResource($user);
+    }
+
     public function editPassword(Request $request, $id)
     {
         $user = User::findOrFail($id);

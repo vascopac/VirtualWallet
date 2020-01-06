@@ -40,6 +40,8 @@ Route::middleware('auth:api')->group(function (){
         'CategoryControllerAPI@index');
     Route::put('movements/{id}',
         'MovementControllerAPI@update');
+    Route::put('users/admin/{id}',
+        'UserControllerAPI@updateAdmin');
     Route::post('users/add',
         'UserControllerAPI@add')->middleware('isAdmin');
     Route::delete('users/{id}',
