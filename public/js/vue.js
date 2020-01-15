@@ -2264,11 +2264,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Home.vue",
   data: function data() {
     return {
-      numWallets: ''
+      numWallets: '',
+      number: ''
     };
   },
   methods: {
@@ -2279,10 +2281,19 @@ __webpack_require__.r(__webpack_exports__);
         _this.numWallets = response.data;
         console.log(response);
       });
+    },
+    count: function count() {
+      var _this2 = this;
+
+      axios.get('/api/walletsvalue').then(function (response) {
+        _this2.number = response.data;
+        console.log(response);
+      });
     }
   },
   created: function created() {
     this.wallets();
+    this.count();
   }
 });
 
@@ -2674,6 +2685,18 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -22202,6 +22225,10 @@ var render = function() {
                       _vm._s(this.numWallets) +
                       " Virtual Wallets"
                   )
+                ]),
+                _vm._v(" "),
+                _c("p", { staticClass: "white--text display-1" }, [
+                  _vm._v("We Currently Have " + _vm._s(this.number) + " €")
                 ])
               ])
             ],
@@ -23110,6 +23137,29 @@ var render = function() {
                   },
                   [_vm._v("\n        edit\n      ")]
                 )
+              ]
+            }
+          },
+          {
+            key: "item.value",
+            fn: function(ref) {
+              var item = ref.item
+              return [
+                item.type == "Expense"
+                  ? _c("div", [
+                      _vm._v(
+                        "\n          " +
+                          _vm._s("(" + item.value + "€)") +
+                          "\n        "
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                item.type == "Income"
+                  ? _c("div", [
+                      _vm._v("\n          " + _vm._s(item.value) + "\n        ")
+                    ])
+                  : _vm._e()
               ]
             }
           }

@@ -14,6 +14,17 @@ class WalletControllerAPI extends Controller
         return Wallet::all()->count();
     }
 
+    public function value (Request $request)
+    {
+        $wallets = Wallet::all();
+        $count = 0.00;
+        foreach($wallets as $wall){
+            $count = $count + $wall->balance;
+        }
+
+        return $count;
+    }
+
     public function walletAssociated(Request $request)
     {
         $totalEmail = 1;

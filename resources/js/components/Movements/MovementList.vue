@@ -168,6 +168,18 @@
         edit
       </v-icon>
     </template>
+    <template v-slot:item.value="{ item }">
+        <div
+          v-if="item.type == 'Expense'"
+        >
+          {{ '(' + item.value + '€)' }}
+        </div>
+        <div
+          v-if="item.type == 'Income'"
+        >
+          {{ item.value }}
+        </div>
+    </template>
   </v-data-table>
 </div>
 </template>

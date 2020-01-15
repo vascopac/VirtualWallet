@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('wallets', 'WalletControllerAPI@index');
 Route::post('login', 'LoginControllerAPI@login');
 Route::post('register', 'UserControllerAPI@store');
+Route::get('walletsvalue', 'WalletControllerAPI@value');
 Route::middleware('auth:api')->group(function (){
     Route::post('logout',
         'LoginControllerAPI@logout');

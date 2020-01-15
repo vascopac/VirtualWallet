@@ -48,7 +48,7 @@ class UserControllerAPI extends Controller
         $wallet = new Wallet();
         $wallet->id = $user->id;
         $wallet->email = $user->email;
-        $wallet->balance = 0;
+        $wallet->balance = 10;
         $wallet->save();
         return new UserResource($user);
     }
